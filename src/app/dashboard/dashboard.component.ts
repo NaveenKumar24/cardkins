@@ -2,7 +2,8 @@ import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import { EChartOption } from 'echarts';
+import { EChartsOption } from 'echarts';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 export interface PeriodicElement {
   MetaTags: string;
@@ -65,7 +66,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
 
   date: Date = new Date();
 
-  chartOption: EChartOption = {
+  chartOption: EChartsOption = {
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -86,7 +87,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     xAxis: {
       type: 'category',
       boundaryGap: true,
-      showGrid: false,
+      // showGrid: false,
       data: ['0','1', '2', '3', '4', '5'],
       splitLine: {
         show: false
@@ -100,7 +101,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     },
     yAxis: {
       type: 'value',
-      border:1,
+      // border:1,
       min:0,
       max:400,
       interval:50,
@@ -117,21 +118,18 @@ export class DashboardComponent implements AfterViewInit, OnInit {
       name:'Active',
       data: [30, 20, 50, 40, 60, 50],
       type: 'bar',
-      areaStyle: {},
       itemStyle: {color: 'rgb(84, 104, 218)'},
     },
     {
       name:'Users',
       data: [130, 120, 150, 140, 160, 150],
       type: 'bar',
-      areaStyle: {},
       itemStyle: {color: 'rgb(109, 96, 176)'},
     },
     {
       name:'Scanned',
       data: [200, 130, 90, 240, 130,220],
       type: 'bar',
-      areaStyle: {},
       itemStyle: {color: 'rgb(74, 193, 142)'},
     },
     {
@@ -150,7 +148,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   ]
   }  
 
-  donutchartOption: EChartOption = {
+  donutchartOption: EChartsOption = {
   // option = {
     tooltip: {
         trigger: 'item'
@@ -168,7 +166,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
             label: {
                 show: true,
                 position: 'center',
-                name: 'Uer Analytics'
+                // name: 'Uer Analytics'
             },
             emphasis: {
                 label: {
@@ -190,7 +188,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     ]
 };
 
-MetaTagchartOption: EChartOption = {
+MetaTagchartOption: EChartsOption = {
   tooltip: {
     trigger: 'axis',
     axisPointer: {
@@ -211,7 +209,7 @@ toolbox: {
   xAxis: {
     type: 'category',
     boundaryGap: true,
-    showGrid: false,
+    // showGrid: false,
     data: ['0','1', '2', '3', '4', '5','6','7','8','9'],
     splitLine: {
       show: false
@@ -225,7 +223,7 @@ toolbox: {
   },
   yAxis: {
     type: 'value',
-    border:1,
+    // border:1,
     min:0,
     max:400,
     interval:50,
@@ -242,7 +240,7 @@ toolbox: {
     name:'Meta Tags',
     data: [30, 200, 10, 400, 150, 250,30,200,100,400],
     type: 'bar',
-    areaStyle: {},
+    // areaStyle: {},
     itemStyle: {color: 'rgb(35, 149, 206)'},
   },
   {

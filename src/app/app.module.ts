@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChartsModule, ThemeService } from 'ng2-charts';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -44,6 +45,7 @@ import { EventAnalyticsModule } from './event-analytics/event-analytics.module';
     BrowserModule,
     AppRoutingModule,
     NgbModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,

@@ -11,24 +11,14 @@
         </div>
         <div  class="mat-elevation-z8">
             <table mat-table [dataSource]="dataSource" matSort>
-                <ng-container matColumnDef="username">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
-                  <td mat-cell *matCellDef="let element"> {{element.username}} </td>
-                </ng-container>
-                <ng-container matColumnDef="Status">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
-                  <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
-                  <!-- <mat-cell *matCellDef="let element" class="intella-cell"><mat-select placeholder="Set remarks" [value]>
-                    <mat-option value="report">Report</mat-option>
-                    <mat-option value="edit">Edit</mat-option>
-                    <mat-option value="delete">Delete</mat-option>
-                  </mat-select></mat-cell> -->
-                  <!-- <mat-select panelClass="example-panel-dark-blue">
-                    <mat-option *ngFor="let cust of [1,2,3,4]"
-                                [value]="cust"> {{cust}}
-                    </mat-option>
-                  </mat-select> -->
-                </ng-container>
+              <ng-container matColumnDef="username">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.UserName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
+              </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>    
                 <tr class="mat-row" *matNoDataRow>

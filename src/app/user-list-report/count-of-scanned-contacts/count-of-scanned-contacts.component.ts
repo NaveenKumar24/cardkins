@@ -1,47 +1,132 @@
-
-
-import { Component, ViewChild, OnInit, AfterViewInit, } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, Input } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-
-export interface PeriodicElement {
-  username: string;
-  NoOfScannedContacts: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {username: 'Anbu', NoOfScannedContacts: 10},
-  {username: 'Kannan', NoOfScannedContacts: 10},
-  {username: 'Mark', NoOfScannedContacts: 10},
-  {username: 'Ram', NoOfScannedContacts: 10},
-  {username: 'Rama Krishnan	', NoOfScannedContacts: 10},
-  {username: 'William', NoOfScannedContacts: 10},
-  {username: 'Ram', NoOfScannedContacts: 10},
-  {username: 'Ratha', NoOfScannedContacts: 10},
-  {username: 'Saranya', NoOfScannedContacts: 10},
-];
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import * as CryptoJS from 'crypto-js'
+import  { TokenService } from '../../token.service';
 
 @Component({
   selector: 'app-count-of-scanned-contacts',
   templateUrl: './count-of-scanned-contacts.component.html',
   styleUrls: ['./count-of-scanned-contacts.component.scss']
 })
-export class CountOfScannedContactsComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['username', 'NoOfScannedContacts'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+export class CountOfScannedContactsComponent implements  OnInit{
+
+  @Input()  Token;
+  @Input() postRsponse;
+  token:any;
+  seckey:any;
+  url:any;
+  iv:any;
+  salt:any;
+  keySize:any;
+  CountOfScannedContacts: any;
+  AuthorizationToken:any;
+  res:any;
+  cipherData:any;
+  dataSource:any;
+  decryptedResponse:any;
+  displayedColumns: string[] = ['username', 'NoOfCardExchanged'];
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
-  constructor() { }
+  constructor(private http: HttpClient,
+    private TokenService: TokenService) {}
+   ngOnInit() {
+      this.CountOfScannedContacts =  {
+        "LoginUserProfileId": 114,
+        "RoleId": 2,
+        "Flag":"S"
+    };
+      this.url = '/api';
+      this.generateToken();   
+      this.Encrypt();
+      const encrypted = this.TokenService.EncryptedData(JSON.stringify(this.CountOfScannedContacts));
+      // const postmethod = this.TokenService.postMethod();
+      // this.BindData();
+   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+   generateToken() {
+    this.TokenService.generateToken().subscribe(token => {
+      this.AuthorizationToken = token;
+      console.log("Authorized-Token is" + " " + this.AuthorizationToken);
+    })
   }
+
+
+  Encrypt() {
+      var iv = CryptoJS.enc.Hex.parse('e84ad660c4721ae0e84ad660c4721ae0');
+      //Encoding the Password in from UTF8 to byte array
+      var  Pass = CryptoJS.enc.Utf8.parse('Y2FyZGtpbnNzYWx0a2V5');
+      //Encoding the Salt in from UTF8 to byte array
+      var Salt = CryptoJS.enc.Utf8.parse("Y2FyZGtpbnNzYWx0a2V5");
+      //Creating the key in PBKDF2 format to be used during the decryption
+      let key128Bits1000Iterations = CryptoJS.PBKDF2(Pass.toString(CryptoJS.enc.Utf8), Salt, { keySize: 128 / 32, iterations: 1000 });
+      //Enclosing the test to be decrypted in a CipherParams object as supported by the CryptoJS libarary
+      var conversionEncryptOutput: any;
+      console.log(this.CountOfScannedContacts);
+      var encrypted = CryptoJS.AES.encrypt(JSON.stringify(this.CountOfScannedContacts), key128Bits1000Iterations, 
+        { 
+          mode: CryptoJS.mode.CBC, 
+          iv: iv, 
+          padding: CryptoJS.pad.Pkcs7 
+        });
+      var EncryptedData = CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
+      console.log('final - encrypted output', EncryptedData);
+      this.postData(EncryptedData);
+  }
+
+
+  postData(encryptedData) {
+    let headers = new HttpHeaders({
+      'Content-Type': 'text/json',
+      'Authorization-Token': this.AuthorizationToken,
+      "Access-Control-Allow-Origin" : "*",
+      "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+    });
+
+    let body ={"request": encryptedData}
+    this.http.post(this.url + 'WebAdminPanel/ExchangedAndScannedCardReport',body,{ headers: headers})
+    .subscribe(
+    res =>{
+        this.res = res;
+        console.log(this.res);
+        let EncryptedResponse = this.res.response;
+        // console.log(EncryptedResponse);
+        this.DecryptedData(EncryptedResponse);
+              },
+              err => {
+                JSON.parse(JSON.stringify(err))
+                console.log(err.message);
+              }
+          ) 
+  }
+
+  DecryptedData(response) {
+     var iv = CryptoJS.enc.Hex.parse('e84ad660c4721ae0e84ad660c4721ae0');
+     //Encoding the Password in from UTF8 to byte array
+     var Pass = CryptoJS.enc.Utf8.parse('Y2FyZGtpbnNzYWx0a2V5');
+     //Encoding the Salt in from UTF8 to byte array
+     var Salt = CryptoJS.enc.Utf8.parse("Y2FyZGtpbnNzYWx0a2V5");
+     //Creating the key in PBKDF2 format to be used during the decryption
+     var key128Bits1000Iterations = CryptoJS.PBKDF2(Pass.toString(CryptoJS.enc.Utf8), Salt, { keySize: 128 / 32, iterations: 1000 });
+     //Enclosing the test to be decrypted in a CipherParams object as supported by the CryptoJS libarary
+     var decrypted = CryptoJS.AES.decrypt(response, key128Bits1000Iterations, { mode: CryptoJS.mode.CBC, iv: iv, padding: CryptoJS.pad.Pkcs7 });
+      console.log(JSON.parse(decrypted.toString(CryptoJS.enc.Utf8)));
+      // debugger;
+      let DecryptOutput = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
+      // console.log(DecryptOutput.responseValue.UserWiseMetaTagsDataReport);
+      let TableData = DecryptOutput.responseValue.ExchangeAndScannedCardDataReport;
+      // console.log("Table Data Length is" + " " + TableData.length);
+      this.dataSource = new MatTableDataSource(TableData);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+  }
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -52,3 +137,4 @@ export class CountOfScannedContactsComponent implements AfterViewInit {
     }
   }
 }
+
