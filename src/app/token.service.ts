@@ -1,26 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Component, ViewChild, OnInit, AfterViewInit, Input } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import * as CryptoJS from 'crypto-js';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenService {
-  TokenJSON:any;
   AuthorizedToken:any;
   token:any;
   secKeys:any;
   url:any;
-  TableData:any;
   EncryptedResponse:any;
-  resonse:any;
-  res:any;
+  baseURL = environment.api;
+
+ headers = new HttpHeaders({
+    'Content-Type': 'text/json',
+     'Authorization-Token':  this.generateToken(),
+    //   // "Access-Control-Allow-Origin" : "*",
+    //   // "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
+    //   // "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+  });
   constructor(private http: HttpClient) { }
 
 
-  generateToken(): Observable<any>{
+  generateToken(){
     this.secKeys = [
       "wwEauO5BHSQRVYopRWVNin1cqybd",
       "25elLuv4UQlzdfYhee1CsIvQRx3I",
@@ -77,7 +81,7 @@ export class TokenService {
     let randomValue = this.secKeys[Math.floor(Math.random() * this.secKeys.length)];
     // console.log("Random Element is " + " " + randomValue);
     // CardKins*#An0nym0u$U&3r#*uNFcF5Cb7sk9Un2KpInUqatP69TU
-    this.token = 'CardKins'+'*#*'+'An0nym0u$U&3r'+'*#*'+ 'uNFcF5Cb7sk9Un2KpInUqatP69TU';
+    this.token = 'CardKins'+'*#*'+'An0nym0u$U&3r'+'*#*'+ randomValue;
     console.log(this.token);
      var iv = CryptoJS.enc.Hex.parse('e84ad660c4721ae0e84ad660c4721ae0');
     //Encoding the Password in from UTF8 to byte array
@@ -91,12 +95,12 @@ export class TokenService {
     this.AuthorizedToken = CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
     // this.AuthorizedToken = this.token;
     console.log("Authorization Token is" + " " + encrypted);
-    return of (this.AuthorizedToken);   
+    return this.AuthorizedToken;   
   }
 
   EncryptedData(encryptedData){
     var str = encryptedData;
-    var ConvertToJSON = JSON.parse(str);
+    var ConvertToJSON = str;
     console.log(ConvertToJSON);
       // console.log("Encrypted Data is" + " " + JSON.parse('+ 'encryptedData));
       var iv = CryptoJS.enc.Hex.parse('e84ad660c4721ae0e84ad660c4721ae0');
@@ -113,63 +117,9 @@ export class TokenService {
           iv: iv, 
           padding: CryptoJS.pad.Pkcs7 
         });
-      this.EncryptedResponse = CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
-      console.log('final - encrypted output', this.EncryptedResponse);
-      // this.postMethod(EncryptedData);
-  } 
-
-
-  // postMethod(): Observable<any> {
-  //     console.log("" + " "+ this.EncryptedResponse);
-  //       let headers = new HttpHeaders({
-  //     'Content-Type': 'text/json',
-  //     'Authorization-Token': this.AuthorizedToken,
-  //     "Access-Control-Allow-Origin" : "*",
-  //     "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
-  //     "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
-  //   });
-  //   let body ={"request": this.EncryptedResponse}
-  //   this.http.post('/api/WebAdminPanel/UserWiseMetaTagsReport',body,{ headers: headers})
-  //   .subscribe(
-  //   res =>{
-  //       this.res = res;
-  //       console.log(this.res);
-  //       this.resonse= this.res.response;
-  //       return of (this.resonse);
-  //       // console.log(EncryptedResponse);
-  //             },
-  //             err => {
-  //               JSON.parse(JSON.stringify(err))
-  //               console.log(err.message);
-  //             }
-  //         ) 
-  // }
-
-  // postMethod(encryptString) {
-  //   let headers = new HttpHeaders({
-  //     'Content-Type': 'text/json',
-  //     'Authorization-Token': this.AuthorizedToken,
-  //     "Access-Control-Allow-Origin" : "*",
-  //     "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
-  //     "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
-  //   });
-  //   let body ={"request": encryptString}
-  //   this.http.post('/api/WebAdminPanel/UserWiseMetaTagsReport',body,{ headers: headers})
-  //   .subscribe(
-  //   res =>{
-  //       this.res = res;
-  //       console.log(this.res);
-  //       let EncryptedResponse = this.res.response;
-  //       // console.log(EncryptedResponse);
-  //       return of(EncryptedResponse);
-  //       this.DecryptedData(EncryptedResponse);
-  //             },
-  //             err => {
-  //               JSON.parse(JSON.stringify(err))
-  //               console.log(err.message);
-  //             }
-  //         ) 
-  // }
+      let encryptedResponse = CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
+      return encryptedResponse;
+  }
 
   DecryptedData(response) {
      var iv = CryptoJS.enc.Hex.parse('e84ad660c4721ae0e84ad660c4721ae0');
@@ -182,16 +132,45 @@ export class TokenService {
      //Enclosing the test to be decrypted in a CipherParams object as supported by the CryptoJS libarary
      var decrypted = CryptoJS.AES.decrypt(response, key128Bits1000Iterations, { mode: CryptoJS.mode.CBC, iv: iv, padding: CryptoJS.pad.Pkcs7 });
       console.log(JSON.parse(decrypted.toString(CryptoJS.enc.Utf8)));
-      // debugger;
       let DecryptOutput = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
-      console.log(DecryptOutput.responseValue.UserWiseMetaTagsDataReport);
-      this.TableData = DecryptOutput.responseValue.UserWiseMetaTagsDataReport;
-      console.log("Table Data Length is" + " " + this.TableData.length);
-
-      return of (this.TableData); 
-      // this.dataSource = new MatTableDataSource(TableData);
-      // this.dataSource.paginator = this.paginator;
-      // this.dataSource.sort = this.sort;
+      return (DecryptOutput);
   }
+  
+  userWiseMetaTagsReport(encryptString) {  
+    let body ={"request": (encryptString)}
+     return this.http.post(this.baseURL +'WebAdminPanel/UserWiseMetaTagsReport', body,{ headers: this.headers}).toPromise();
+  }
+
+  metaTagsReport(encryptString) {
+    let body ={"request": (encryptString)}
+     return this.http.post(this.baseURL +'WebAdminPanel/MetaTagsReport', body,{ headers: this.headers}).toPromise();
+  }
+
+  userStatus(encryptString) {
+    let body ={"request": (encryptString)}
+    return this.http.post(this.baseURL +'WebAdminPanel/UserStatusReport', body,{ headers: this.headers}).toPromise();
+  }
+
+  countOfExchangedCards(encryptString) {
+    let body ={"request": (encryptString)}
+    return this.http.post(this.baseURL +'WebAdminPanel/ExchangedAndScannedCardReport', body,{ headers: this.headers}).toPromise();
+  }
+
+  countOfScannedContacts(encryptString) {
+    let body ={"request": (encryptString)}
+    return this.http.post(this.baseURL +'WebAdminPanel/ExchangedAndScannedCardReport', body,{ headers: this.headers}).toPromise();
+  }
+
+  UserVisingCards(encryptString) {
+    let body ={"request": (encryptString)}
+    return this.http.post(this.baseURL +'WebAdminPanel/UserCardDetailsReport', body,{ headers: this.headers}).toPromise();
+  }
+
+  UserVisingCardsMeta(encryptString){
+    let body ={"request": (encryptString)}
+    return this.http.post(this.baseURL +'WebAdminPanel/UserCardDetailsReport', body,{ headers: this.headers}).toPromise();
+    // return this.http.post(this.baseURL +'WebAdminPanel/UserEVistingCardMetaTagReport', body,{ headers: this.headers}).toPromise();
+  }
+
 }
 

@@ -13,115 +13,35 @@ import  { TokenService } from '../../token.service';
 })
 export class UserStatusComponent implements  OnInit{
 
-  @Input()  Token;
-  @Input() postRsponse;
-  token:any;
-  seckey:any;
-  url:any;
-  iv:any;
-  salt:any;
-  keySize:any;
-  UserStatusReport: any;
-  AuthorizationToken:any;
-  res:any;
-  cipherData:any;
   dataSource:any;
-  decryptedResponse:any;
   displayedColumns: string[] = ['username', 'Status'];
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
-  constructor(private http: HttpClient,
-    private TokenService: TokenService) {}
+  constructor(private http: HttpClient,private TokenService: TokenService) {}
    ngOnInit() {
-      this.UserStatusReport = {
+     this.getUserStatus();
+   }
+
+   getUserStatus() {
+    let UserStatusReport = {
       "LoginUserProfileId": 114,
       "RoleId": 2
       };
-      this.url = '/api';
-      this.generateToken();   
-      this.Encrypt();
-      const encrypted = this.TokenService.EncryptedData(JSON.stringify(this.UserStatusReport));
-   }
-
-   generateToken() {
-    this.TokenService.generateToken().subscribe(token => {
-      this.AuthorizationToken = token;
-      console.log("Authorized-Token is" + " " + this.AuthorizationToken);
-    })
-  }
-
-
-  Encrypt() {
-      var iv = CryptoJS.enc.Hex.parse('e84ad660c4721ae0e84ad660c4721ae0');
-      //Encoding the Password in from UTF8 to byte array
-      var  Pass = CryptoJS.enc.Utf8.parse('Y2FyZGtpbnNzYWx0a2V5');
-      //Encoding the Salt in from UTF8 to byte array
-      var Salt = CryptoJS.enc.Utf8.parse("Y2FyZGtpbnNzYWx0a2V5");
-      //Creating the key in PBKDF2 format to be used during the decryption
-      let key128Bits1000Iterations = CryptoJS.PBKDF2(Pass.toString(CryptoJS.enc.Utf8), Salt, { keySize: 128 / 32, iterations: 1000 });
-      //Enclosing the test to be decrypted in a CipherParams object as supported by the CryptoJS libarary
-      var conversionEncryptOutput: any;
-      console.log(this.UserStatusReport);
-      var encrypted = CryptoJS.AES.encrypt(JSON.stringify(this.UserStatusReport), key128Bits1000Iterations, 
-        { 
-          mode: CryptoJS.mode.CBC, 
-          iv: iv, 
-          padding: CryptoJS.pad.Pkcs7 
-        });
-      var EncryptedData = CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
-      console.log('final - encrypted output', EncryptedData);
-      this.postData(EncryptedData);
-  }
-
-
-  postData(encryptedData) {
-    let headers = new HttpHeaders({
-      'Content-Type': 'text/json',
-      'Authorization-Token': this.AuthorizationToken,
-      "Access-Control-Allow-Origin" : "*",
-      "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
-    });
-
-    let body ={"request": encryptedData}
-    this.http.post(this.url + 'WebAdminPanel/UserStatusReport',body,{ headers: headers})
-    .subscribe(
-    res =>{
-        this.res = res;
-        console.log(this.res);
-        let EncryptedResponse = this.res.response;
-        // console.log(EncryptedResponse);
-        this.DecryptedData(EncryptedResponse);
-              },
-              err => {
-                JSON.parse(JSON.stringify(err))
-                console.log(err.message);
-              }
-          ) 
-  }
-
-  DecryptedData(response) {
-     var iv = CryptoJS.enc.Hex.parse('e84ad660c4721ae0e84ad660c4721ae0');
-     //Encoding the Password in from UTF8 to byte array
-     var Pass = CryptoJS.enc.Utf8.parse('Y2FyZGtpbnNzYWx0a2V5');
-     //Encoding the Salt in from UTF8 to byte array
-     var Salt = CryptoJS.enc.Utf8.parse("Y2FyZGtpbnNzYWx0a2V5");
-     //Creating the key in PBKDF2 format to be used during the decryption
-     var key128Bits1000Iterations = CryptoJS.PBKDF2(Pass.toString(CryptoJS.enc.Utf8), Salt, { keySize: 128 / 32, iterations: 1000 });
-     //Enclosing the test to be decrypted in a CipherParams object as supported by the CryptoJS libarary
-     var decrypted = CryptoJS.AES.decrypt(response, key128Bits1000Iterations, { mode: CryptoJS.mode.CBC, iv: iv, padding: CryptoJS.pad.Pkcs7 });
-      console.log(JSON.parse(decrypted.toString(CryptoJS.enc.Utf8)));
-      // debugger;
-      let DecryptOutput = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
-      // console.log(DecryptOutput.responseValue.UserWiseMetaTagsDataReport);
-      let TableData = DecryptOutput.responseValue.UserStatusReportData;
+      this.TokenService.userStatus(this.TokenService.EncryptedData(UserStatusReport)).then(async res => {
+      let deceryptedData = await this.TokenService.DecryptedData(res['response']);
+      console.log(deceryptedData);
+      let TableData = deceryptedData.responseValue.UserStatusReportData;
       // console.log("Table Data Length is" + " " + TableData.length);
       this.dataSource = new MatTableDataSource(TableData);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-  }
+      }).catch(err => {
+              JSON.parse(JSON.stringify(err))
+              console.log(err.message);
+      })
+   }
 
 
   applyFilter(event: Event) {

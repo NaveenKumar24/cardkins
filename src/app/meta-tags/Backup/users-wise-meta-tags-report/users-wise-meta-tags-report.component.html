@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-body">
-        <h4 class="card-title">Users e-visiting Cards</h4>
+        <h4 class="card-title">Users-wise Meta-tags Report</h4>
         <div class="row">
             <div class="col-9"></div>
             <div class="col-3">
@@ -11,19 +11,14 @@
         </div>
         <div  class="mat-elevation-z8">
             <table mat-table [dataSource]="dataSource" matSort>
-              <ng-container matColumnDef="Username">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
-                <td mat-cell *matCellDef="let element"> {{element.UserName}} </td>
-              </ng-container>
-              <ng-container matColumnDef="EvistingCard">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Evisting Card</th>
-                <td mat-cell *matCellDef="let element"> {{element.EvistingCard}} </td>
-              </ng-container>
-                <ng-container matColumnDef="Status">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
-                    <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
-                  </ng-container>
-                  
+                <ng-container matColumnDef="username">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.UserName}} </td>
+                </ng-container>
+                <ng-container matColumnDef="NoOfMetaTags">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> No Of Meta Tags</th>
+                  <td mat-cell *matCellDef="let element"> {{element.NoOfMetaTags}} </td>
+                </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>    
                 <tr class="mat-row" *matNoDataRow>
