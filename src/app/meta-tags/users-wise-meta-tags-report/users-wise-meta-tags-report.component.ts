@@ -28,7 +28,8 @@ export class UsersWiseMetaTagsReportComponent implements OnInit {
           "LoginUserProfileId": 114,
           "RoleId": 2
         };
-        this.TokenService.userWiseMetaTagsReport(this.TokenService.EncryptedData(UserWiseMetaTagsReport)).then(async res => {
+        let api = 'WebAdminPanel/UserWiseMetaTagsReport';
+        this.TokenService.postdata(this.TokenService.EncryptedData(UserWiseMetaTagsReport),api).then(async res => {
         let deceryptedData = await this.TokenService.DecryptedData(res['response']);
         console.log(deceryptedData);
         let TableData = deceryptedData.responseValue.UserWiseMetaTagsDataReport;

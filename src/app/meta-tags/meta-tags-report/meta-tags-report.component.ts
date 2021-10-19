@@ -33,7 +33,8 @@ export class MetaTagsReportComponent implements OnInit {
       "LoginUserProfileId": 114,
       "RoleId": 2
     };
-    this.TokenService.metaTagsReport(this.TokenService.EncryptedData(MetaTagsReport)).then(async res => {
+    let api = 'WebAdminPanel/MetaTagsReport'
+    this.TokenService.postdata(this.TokenService.EncryptedData(MetaTagsReport),api).then(async res => {
     let deceryptedData = await this.TokenService.DecryptedData(res['response']);
     console.log(deceryptedData);
     let TableData = deceryptedData.responseValue.MetaTagsDataReport;

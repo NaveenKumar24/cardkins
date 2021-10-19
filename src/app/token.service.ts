@@ -136,9 +136,9 @@ export class TokenService {
       return (DecryptOutput);
   }
   
-  userWiseMetaTagsReport(encryptString) {  
-    let body ={"request": (encryptString)}
-     return this.http.post(this.baseURL +'WebAdminPanel/UserWiseMetaTagsReport', body,{ headers: this.headers}).toPromise();
+  postdata(encryptString,url) {  
+    let body ={"request": (encryptString)};
+     return this.http.post(this.baseURL +url, body,{ headers: this.headers}).toPromise();
   }
 
   metaTagsReport(encryptString) {
@@ -168,8 +168,7 @@ export class TokenService {
 
   UserVisingCardsMeta(encryptString){
     let body ={"request": (encryptString)}
-    return this.http.post(this.baseURL +'WebAdminPanel/UserCardDetailsReport', body,{ headers: this.headers}).toPromise();
-    // return this.http.post(this.baseURL +'WebAdminPanel/UserEVistingCardMetaTagReport', body,{ headers: this.headers}).toPromise();
+    return this.http.post(this.baseURL +'WebAdminPanel/UserEVistingCardMetaTagReport', body,{ headers: this.headers}).toPromise();
   }
 
 }

@@ -19,7 +19,7 @@
     <div class="card bg-white card-img-holder text-black">
       <div class="card-body row">
           <div class="col-7">
-            <p class="card-text">150</p>
+            <p class="card-text" [innerHTML]="activeUser"></p>
             <p class="card-text">Active Users</p>
           </div>
           <div class="col-3">
@@ -28,21 +28,13 @@
               </div>
           </div>
       </div>
-      <!-- <div class="card-body">
-        <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>
-        <h4 class="font-weight-normal mb-3">Weekly Sales
-          <i class="mdi mdi-chart-line mdi-24px float-right"></i>
-        </h4>
-        <h2 class="mb-5">$ 15,0000</h2>
-        <h6 class="card-text">Increased by 60%</h6>
-      </div> -->
     </div>
   </div>
   <div class="col-md-6 col-lg-3 stretch-card grid-margin">
     <div class="card bg-white card-img-holder text-black">
       <div class="card-body row">
           <div class="col-7 pr-0">
-            <p class="card-text-blue">120</p>
+            <p class="card-text-blue" [innerHTML]="scannedCards"></p>
             <p class="card-text-blue">Scanned cards</p>
           </div>
           <div class="col-3">
@@ -57,7 +49,7 @@
     <div class="card bg-white card-img-holder text-black">
       <div class="card-body row">
           <div class="col-7 pr-0">
-            <p class="card-dark-blue">100</p>
+            <p class="card-dark-blue" [innerHTML]="exchangeCards"></p>
             <p class="card-dark-blue">Exchanged cards</p>
           </div>
           <div class="col-3">
@@ -72,7 +64,7 @@
     <div class="card bg-white card-img-holder text-black">
       <div class="card-body row">
           <div class="col-7 pr-0">
-            <p class="card-green">50</p>
+            <p class="card-green" [innerHTML]="uniqueMetatags"></p>
             <p class="card-green">Unique metatags</p>
           </div>
           <div class="col-3">
@@ -104,11 +96,11 @@
         <h4 class="card-title">No of users</h4>
         <div class="row text-center">
             <div class="col-6">
-              <h4 class="card-title">25610</h4>
+              <h4 class="card-title" [innerHTML]="enableUsers"></h4>
               <p>Enabled</p>
             </div>
             <div class="col-6">
-              <h4 class="card-title">56210</h4>
+              <h4 class="card-title" [innerHTML]="disableUsers"></h4>
               <p>Disabled</p>
             </div>
         </div>
@@ -125,11 +117,11 @@
         <h4 class="card-title">Top 10 Meta Tags vs Users        </h4>
         <div class="row text-center">
           <div class="col-6">
-            <h4 class="card-title">86541</h4>
+            <h4 class="card-title" [innerHTML]="numberOfMetaTags"></h4>
             <p>Meta Tags            </p>
           </div>
           <div class="col-6">
-            <h4 class="card-title">2541</h4>
+            <h4 class="card-title" [innerHTML]="numberOfUsers"></h4>
             <p>Users</p>
           </div>
       </div>
@@ -151,13 +143,13 @@
         </div>
           <div  class="mat-elevation-z8">
             <table mat-table [dataSource]="dataSource" matSort>
-                <ng-container matColumnDef="MetaTags">
+                <ng-container matColumnDef="Metatags">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header> Meta Tags </th>
-                  <td mat-cell *matCellDef="let element"> {{element.MetaTags}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element.Metatags}} </td>
                 </ng-container>
-                <ng-container matColumnDef="NoOfCounts">
+                <ng-container matColumnDef="NumberOfCount">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header> No.of Counts </th>
-                  <td mat-cell *matCellDef="let element"> {{element.NoOfCounts}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element.NumberOfCount}} </td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>    

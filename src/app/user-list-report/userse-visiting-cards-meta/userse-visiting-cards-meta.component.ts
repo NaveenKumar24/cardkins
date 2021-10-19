@@ -1,9 +1,8 @@
-import { Component, ViewChild, OnInit, AfterViewInit, Input } from '@angular/core';
+import { Component, ViewChild, OnInit, } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import * as CryptoJS from 'crypto-js'
 import  { TokenService } from '../../token.service';
 
 @Component({
@@ -14,7 +13,7 @@ import  { TokenService } from '../../token.service';
 
 export class UserseVisitingCardsMetaComponent implements  OnInit{
   dataSource:any;
-  displayedColumns: string[] = ['UserName', 'EvistingCard', 'Status'];
+  displayedColumns: string[] = ['UserName', 'MetaTag', 'Status'];
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -29,11 +28,11 @@ export class UserseVisitingCardsMetaComponent implements  OnInit{
             "LoginUserProfileId": 114,
             "RoleId": 2,
           };
-
-          this.TokenService.UserVisingCardsMeta(this.TokenService.EncryptedData(UserVisitingCardDetails)).then(async res => {
+          let api = 'WebAdminPanel/UserEVistingCardMetaTagReport';
+          this.TokenService.postdata(this.TokenService.EncryptedData(UserVisitingCardDetails),api).then(async res => {
             let deceryptedData = await this.TokenService.DecryptedData(res['response']);
             console.log(deceryptedData);
-            let TableData = deceryptedData.responseValue.UserEcardStatusReportData;
+            let TableData = deceryptedData.responseValue.UserWiseCardMetaTagsDataReport;
             // console.log("Table Data Length is" + " " + TableData.length);
             this.dataSource = new MatTableDataSource(TableData);
             this.dataSource.paginator = this.paginator;

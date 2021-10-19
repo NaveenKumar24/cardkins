@@ -31,8 +31,8 @@ export class UserseVisitingCardsComponent implements  OnInit{
           "LoginUserProfileId": 114,
           "RoleId": 2,
         };  
-
-        this.TokenService.UserVisingCards(this.TokenService.EncryptedData(UserVisitingCard)).then(async res => {
+        let api = 'WebAdminPanel/UserCardDetailsReport';
+        this.TokenService.postdata(this.TokenService.EncryptedData(UserVisitingCard),api).then(async res => {
           let deceryptedData = await this.TokenService.DecryptedData(res['response']);
           console.log(deceryptedData);
           let TableData = deceryptedData.responseValue.UserEcardStatusReportData;

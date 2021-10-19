@@ -1,28 +1,11 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { EChartsOption } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
-
-export interface PeriodicElement {
-  MetaTags: string;
-  NoOfCounts: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {MetaTags: 'Web Designer', NoOfCounts: 50},
-  {MetaTags: 'Web', NoOfCounts: 400},
-  {MetaTags: 'User Interface', NoOfCounts: 350},
-  {MetaTags: '.Net', NoOfCounts: 300},
-  {MetaTags: '.Net Developer', NoOfCounts: 250},
-  {MetaTags: 'TTH', NoOfCounts: 200},
-  {MetaTags: 'Wipro	', NoOfCounts: 150},
-  {MetaTags: 'CTS', NoOfCounts: 100},
-  {MetaTags: 'TATA', NoOfCounts: 50},
-  {MetaTags: 'Angular', NoOfCounts: 30},
-  {MetaTags: 'Java', NoOfCounts: 460}
-];
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { TokenService } from '../token.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,7 +14,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 
 
-export class DashboardComponent implements AfterViewInit, OnInit {
+export class DashboardComponent implements OnInit {
 
   toggleProBanner(event) {
     console.log("123");
@@ -39,20 +22,291 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     document.querySelector('body').classList.toggle('removeProbanner');
   }
 
-  displayedColumns: string[] = ['MetaTags', 'NoOfCounts'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  displayedColumns: string[] = ['Metatags', 'NumberOfCount'];
+  dataSource: any;
+  activeUser: any;
+  scannedCards: any;
+  exchangeCards: any;
+  uniqueMetatags: any;
+  numberofActiveUsers: any;
+  chartActiveUser: any = 0;
+  chartscannedCards: any;
+  chartexchangeCards: any;
+  chartuniqueMetatags: any;
+  numberofEnabledDisabledUser: any;
+  enableUsers: any;
+  disableUsers: any;
+  noOfUserActive: any = 0;
+  noOfUserScannedCards: any;
+  noOfExchangedCards: any;
+  trendingMetatagsUsers: any;
+  numberOfMetaTags: any;
+  numberOfUsers: any;
+  trendingTop10MetaTags: any;
+  MetaTags: any;
+  Users: any;
+
+  public chartOption;
+  public donutchartOption;
+  public MetaTagchartOption;
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
-  constructor() { }
+  constructor(private http: HttpClient, private TokenService: TokenService) { this.getAllData(); }
 
   ngOnInit() {
+
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  getAllData() {
+    let DashboardRequest = {
+      "LoginUserProfileId": 114,
+      "RoleId": 2,
+    };
+    let api = 'WebAdminPanel/webDashboardData';
+    this.TokenService.postdata(this.TokenService.EncryptedData(DashboardRequest), api).then(async res => {
+      let deceryptedData = await this.TokenService.DecryptedData(res['response']);
+      console.log(deceryptedData);
+      let DashboardData = JSON.stringify(deceryptedData.responseValue.DashboardData);
+      // console.log(DashboardData);
+      this.activeUser = JSON.stringify(deceryptedData.responseValue.DashboardData.ActiveUser);
+      this.scannedCards = JSON.stringify(deceryptedData.responseValue.DashboardData.ScannedCards);
+      this.exchangeCards = JSON.stringify(deceryptedData.responseValue.DashboardData.ExchangedCards);
+      this.uniqueMetatags = JSON.stringify(deceryptedData.responseValue.DashboardData.MetaTags);
+
+      this.numberofActiveUsers = JSON.stringify(deceryptedData.responseValue.NumberofActiveUser);
+      console.log("Chart Data is " + " " + this.numberofActiveUsers);
+      this.chartActiveUser = JSON.stringify(deceryptedData.responseValue.NumberofActiveUser.ActiveUser);
+      this.chartscannedCards = JSON.stringify(deceryptedData.responseValue.NumberofActiveUser.ScannedCards);
+      this.chartexchangeCards = JSON.stringify(deceryptedData.responseValue.NumberofActiveUser.ExchangedCards);
+      this.chartuniqueMetatags = JSON.stringify(deceryptedData.responseValue.NumberofActiveUser.MetaTags);
+
+      this.numberofEnabledDisabledUser = JSON.stringify(deceryptedData.responseValue.NumberofEnabledDisabledUser);
+      console.log(this.numberofEnabledDisabledUser);
+
+
+      /*====================================== No Of Active User Chart Start=======================================================*/
+      this.chartOption = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            // type: 'shadow'
+          }
+        },
+        legend: {
+          orient: 'horizontal',
+          bottom: 'bottom'
+        },
+        toolbox: {
+          show: true,
+          orient: 'vertical',
+          left: 'right',
+          top: 'center',
+
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: true,
+          // showGrid: false,
+          data: ['0', '1', '2', '3', '4', '5'],
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#CCC'
+            }
+          },
+        },
+        yAxis: {
+          type: 'value',
+          // border:1,
+          // min: 0,
+          // max: 400,
+          interval: 50,
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#CCC'
+            }
+          },
+
+        },
+        series: [
+          {
+            name: 'Active',
+            data: this.chartActiveUser,
+            type: 'bar',
+            itemStyle: { color: 'rgb(84, 104, 218)' },
+          },
+          {
+            name: 'Users',
+            data: this.chartActiveUser,
+            type: 'bar',
+            itemStyle: { color: 'rgb(109, 96, 176)' },
+          },
+          {
+            name: 'Scanned',
+            data: this.chartscannedCards,
+            type: 'bar',
+            itemStyle: { color: 'rgb(74, 193, 142)' },
+          },
+          {
+            name: 'Metatags',
+            data: this.chartuniqueMetatags,
+            type: 'line',
+            itemStyle: { color: 'rgb(234, 85, 61)' },
+          },
+          {
+            name: 'Exchanged',
+            data: this.chartexchangeCards,
+            type: 'line',
+            itemStyle: { color: 'rgb(255, 187, 68)' },
+            smooth: true,
+          }
+        ]
+      }
+      /*====================================== No Of Active User Chart End=======================================================*/
+
+      /*===================================== No Users Donut Chart Start =========================================================*/
+      this.enableUsers = JSON.stringify(deceryptedData.responseValue.NumberofEnabledDisabledUser.EnabledUser);
+      this.disableUsers = JSON.stringify(deceryptedData.responseValue.NumberofEnabledDisabledUser.DisabledUser);
+      this.noOfUserActive = JSON.stringify(deceryptedData.responseValue.NumberofEnabledDisabledUser.Active);
+      this.noOfUserScannedCards = JSON.stringify(deceryptedData.responseValue.NumberofEnabledDisabledUser.ScannedCards);
+      this.noOfExchangedCards = JSON.stringify(deceryptedData.responseValue.NumberofEnabledDisabledUser.ExchangedCards);
+
+      this.donutchartOption = {
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          bottom: 'bottom',
+          left: 'center'
+        },
+        series: [
+          {
+            // name: 'User Analytics',
+            type: 'pie',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+              show: true,
+              position: 'center',
+              // name: 'Uer Analytics'
+            },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: '20',
+                fontWeight: 'bold',
+
+              }
+            },
+            labelLine: {
+              show: false
+            },
+            data: [
+              { value: this.noOfUserActive, name: 'Active', itemStyle: { color: 'rgb(84, 104, 218)' } },
+              { value: this.noOfUserScannedCards, name: 'Scanned Cards', itemStyle: { color: 'rgb(74, 193, 142)' } },
+              { value: this.noOfExchangedCards, name: 'Enchanged Cards', itemStyle: { color: 'rgb(109, 96, 176)' } },
+            ]
+          }
+        ]
+      };
+      /*===================================== No Users Donut Chart End =========================================================*/
+
+      /*======================================  Top 10 Meta Tags Users Chart Start =============================================*/
+      this.trendingMetatagsUsers = JSON.stringify(deceryptedData.responseValue.TrendingMetatagsUsers);
+      this.numberOfMetaTags = JSON.stringify(deceryptedData.responseValue.TrendingMetatagsUsers.NumberOfMetaTags);
+      this.numberOfUsers = JSON.stringify(deceryptedData.responseValue.TrendingMetatagsUsers.NumberOfUsers);
+      this.trendingTop10MetaTags = deceryptedData.responseValue.TrendingMetatagsUsers.TrendingMetatagsTop;
+      console.log(this.trendingTop10MetaTags);
+      console.log(this.trendingTop10MetaTags.length);
+      // debugger;
+      let MetatTagsValue = [];
+      let UsersValue = [];
+      for (let i = 0; i < this.trendingTop10MetaTags.length; i++) {
+        MetatTagsValue.push(this.trendingTop10MetaTags[i].Metatags);
+        UsersValue.push(this.trendingTop10MetaTags[i].Users);
+      }
+      console.log('Hi' + MetatTagsValue);
+      console.log('Hi' + UsersValue);
+      this.MetaTagchartOption = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            // type: 'shadow'
+          }
+        },
+        legend: {
+          orient: 'horizontal',
+          bottom: 'bottom'
+        },
+        toolbox: {
+          show: true,
+          orient: 'vertical',
+          left: 'right',
+          top: 'center',
+
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: true,
+          // showGrid: false,
+          // data: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#CCC'
+            }
+          },
+        },
+        yAxis: {
+          type: 'value',
+          // border:1,
+          // min: 0,
+          // max: 400,
+          interval: 50,
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#CCC'
+            }
+          },
+
+        },
+        series: [
+          {
+            name: 'Meta Tags',
+            data: MetatTagsValue,
+            type: 'bar',
+            // areaStyle: {},
+            itemStyle: { color: 'rgb(35, 149, 206)' },
+          },
+          {
+            name: 'Users',
+            data: UsersValue,
+            type: 'line',
+            itemStyle: { color: 'rgb(255, 187, 68)' },
+          }]
+      }
+      /*======================================  Top 10 Meta Tags Users Chart Start =============================================*/
+
+      // console.log("Tile Data is" + " " + JSON.stringify(DashboardData));
+      let TableData = deceryptedData.responseValue.TrendingMetatags;
+      // // console.log("Table Data Length is" + " " + TableData.length);
+      this.dataSource = new MatTableDataSource(TableData);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }).catch(err => {
+      JSON.parse(JSON.stringify(err))
+      console.log(err.message);
+    })
   }
 
   applyFilter(event: Event) {
@@ -63,192 +317,5 @@ export class DashboardComponent implements AfterViewInit, OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
-  date: Date = new Date();
-
-  chartOption: EChartsOption = {
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-          // type: 'shadow'
-      }
-  },
-  legend: {
-    orient: 'horizontal',
-    bottom:'bottom'
-  },
-  toolbox: {
-      show: true,
-      orient: 'vertical',
-      left: 'right',
-      top: 'center',
-     
-  },
-    xAxis: {
-      type: 'category',
-      boundaryGap: true,
-      // showGrid: false,
-      data: ['0','1', '2', '3', '4', '5'],
-      splitLine: {
-        show: false
-     },
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color:'#CCC'
-        }
-      },
-    },
-    yAxis: {
-      type: 'value',
-      // border:1,
-      min:0,
-      max:400,
-      interval:50,
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color:'#CCC'
-        }
-      },
-     
-    },
-    series: [
-      {
-      name:'Active',
-      data: [30, 20, 50, 40, 60, 50],
-      type: 'bar',
-      itemStyle: {color: 'rgb(84, 104, 218)'},
-    },
-    {
-      name:'Users',
-      data: [130, 120, 150, 140, 160, 150],
-      type: 'bar',
-      itemStyle: {color: 'rgb(109, 96, 176)'},
-    },
-    {
-      name:'Scanned',
-      data: [200, 130, 90, 240, 130,220],
-      type: 'bar',
-      itemStyle: {color: 'rgb(74, 193, 142)'},
-    },
-    {
-      name:'Metatags',
-      data: [200, 130, 90, 240, 130,220],
-      type: 'line',
-      itemStyle: {color: 'rgb(234, 85, 61)'},
-    },
-    {
-      name:'Exchanged',
-      data: [300, 200, 160, 400, 250, 250],
-      type: 'line',
-      itemStyle: {color: 'rgb(255, 187, 68)'},
-      smooth: true,
-    }
-  ]
-  }  
-
-  donutchartOption: EChartsOption = {
-  // option = {
-    tooltip: {
-        trigger: 'item'
-    },
-    legend: {
-        bottom: 'bottom',
-        left: 'center'
-    },
-    series: [
-        {
-            name: 'User Analytics',
-            type: 'pie',
-            radius: ['50%', '70%'],
-            avoidLabelOverlap: false,
-            label: {
-                show: true,
-                position: 'center',
-                // name: 'Uer Analytics'
-            },
-            emphasis: {
-                label: {
-                    show: true,
-                    fontSize: '28',
-                    fontWeight: 'bold',
-                   
-                }
-            },
-            labelLine: {
-                show: false
-            },
-            data: [
-                {value: 1048, name: 'Active', itemStyle: {color: 'rgb(84, 104, 218)'}},              
-                {value: 580, name: 'Scanned', itemStyle: {color: 'rgb(74, 193, 142)'}},
-                {value: 735, name: 'Enchanged',itemStyle: {color: 'rgb(109, 96, 176)'}},
-            ]
-        }
-    ]
-};
-
-MetaTagchartOption: EChartsOption = {
-  tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-        // type: 'shadow'
-    }
-},
-legend: {
-  orient: 'horizontal',
-  bottom:'bottom'
-},
-toolbox: {
-    show: true,
-    orient: 'vertical',
-    left: 'right',
-    top: 'center',
-   
-},
-  xAxis: {
-    type: 'category',
-    boundaryGap: true,
-    // showGrid: false,
-    data: ['0','1', '2', '3', '4', '5','6','7','8','9'],
-    splitLine: {
-      show: false
-   },
-    axisLine: {
-      show: true,
-      lineStyle: {
-        color:'#CCC'
-      }
-    },
-  },
-  yAxis: {
-    type: 'value',
-    // border:1,
-    min:0,
-    max:400,
-    interval:50,
-    axisLine: {
-      show: true,
-      lineStyle: {
-        color:'#CCC'
-      }
-    },
-   
-  },
-  series: [
-    {
-    name:'Meta Tags',
-    data: [30, 200, 10, 400, 150, 250,30,200,100,400],
-    type: 'bar',
-    // areaStyle: {},
-    itemStyle: {color: 'rgb(35, 149, 206)'},
-  },
-  {
-    name:'Users',
-    data: [50, 20, 10, 40, 15, 25, 20, 10, 40, 15],
-    type: 'line',
-    itemStyle: {color: 'rgb(255, 187, 68)'},
-  }]
-}
 
 }

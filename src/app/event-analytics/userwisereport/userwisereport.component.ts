@@ -1,44 +1,51 @@
-import { Component, ViewChild, OnInit, AfterViewInit, } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import  { TokenService } from '../../token.service';
 
 
-export interface PeriodicElement {
-  username: string;
-  NoOfEvents: number;
-}
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {username: 'Anbu', NoOfEvents: 22},
-  {username: 'Bharathi', NoOfEvents: 50},
-  {username: 'Hari', NoOfEvents: 33},
-  {username: 'Kannan', NoOfEvents: 30},
-  {username: 'krishnan', NoOfEvents: 40},
-  {username: 'Palani', NoOfEvents: 60},
-  {username: 'Ram', NoOfEvents: 35},
-  {username: 'Ratha', NoOfEvents: 70},
-  {username: 'Saranya', NoOfEvents: 70},
-];
 @Component({
   selector: 'app-userwisereport',
   templateUrl: './userwisereport.component.html',
   styleUrls: ['./userwisereport.component.scss']
 })
-export class UserwisereportComponent implements AfterViewInit {
+export class UserwisereportComponent implements OnInit {
 
-  displayedColumns: string[] = ['username', 'NoOfEvents'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  displayedColumns: string[] = ['UserName', 'NoOfEvents'];
+  dataSource:any;
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
-  constructor() { }
+  constructor(private http: HttpClient,private TokenService: TokenService) { }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  ngOnInit() {
+    this.getUserWiseReport();
   }
+
+  getUserWiseReport() {
+    let UserWiseReport = {
+      "LoginUserProfileId": 114,
+      "RoleId": 2,
+    };
+    let api = 'WebAdminPanel/UserWiseReport';
+    this.TokenService.postdata(this.TokenService.EncryptedData(UserWiseReport),api).then(async res => {
+      let deceryptedData = await this.TokenService.DecryptedData(res['response']);
+      console.log(deceryptedData);
+      let TableData = deceryptedData.responseValue.EventWiseUserDataReport;
+      // console.log("Table Data Length is" + " " + TableData.length);
+      this.dataSource = new MatTableDataSource(TableData);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      }).catch(err => {
+              JSON.parse(JSON.stringify(err))
+              console.log(err.message);
+      })
+  }
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -47,8 +54,5 @@ export class UserwisereportComponent implements AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  }
-
-  ngOnInit(): void {
   }
 }

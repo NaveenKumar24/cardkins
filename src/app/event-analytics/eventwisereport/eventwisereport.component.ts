@@ -1,53 +1,48 @@
-import { Component, ViewChild, OnInit, AfterViewInit, } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-
-export interface PeriodicElement {
-  EventName: string;
-  NoOfUsers: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {EventName: 'Registered Email Varification', NoOfUsers: 50 },
-  {EventName: 'Registeration', NoOfUsers: 30 },
-  {EventName: 'Profile', NoOfUsers: 40 },
-  {EventName: 'Mobile Number', NoOfUsers: 22 },
-  {EventName: 'Logout', NoOfUsers: 70 },
-  {EventName: 'Login', NoOfUsers: 33 },
-  {EventName: 'Forgot Password	', NoOfUsers: 35 },
-  {EventName: 'Registered Email Varification', NoOfUsers: 50 },
-  {EventName: 'Registered Email Varification', NoOfUsers: 50 },
-  {EventName: 'Registered Email Varification', NoOfUsers: 50 },
-  {EventName: 'Registered Email Varification', NoOfUsers: 50 },
-  {EventName: 'Registered Email Varification', NoOfUsers: 50 }
-];
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import  { TokenService } from '../../token.service';
 
 @Component({
   selector: 'app-eventwisereport',
   templateUrl: './eventwisereport.component.html',
   styleUrls: ['./eventwisereport.component.scss']
 })
-export class EventwisereportComponent implements AfterViewInit, OnInit {
-  // displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  // dataSource = ELEMENT_DATA;
-
+export class EventwisereportComponent implements OnInit {
+  dataSource:any;
   displayedColumns: string[] = ['EventName', 'NoOfUsers'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
  
-  constructor() { }
+  constructor(private http: HttpClient,private TokenService: TokenService) { }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  ngOnInit() {
+    this.getEventWiseReport();
   }
-  
-  ngOnInit(): void {
+
+  getEventWiseReport() {
+    let EventWiseReport = {
+      "LoginUserProfileId": 114,
+      "RoleId": 2,
+    };
+    let api = 'WebAdminPanel/EventWiseReport';
+    this.TokenService.postdata(this.TokenService.EncryptedData(EventWiseReport),api).then(async res => {
+      let deceryptedData = await this.TokenService.DecryptedData(res['response']);
+      console.log(deceryptedData);
+      let TableData = deceryptedData.responseValue.EventWiseDataReport;
+      // console.log("Table Data Length is" + " " + TableData.length);
+      this.dataSource = new MatTableDataSource(TableData);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      }).catch(err => {
+              JSON.parse(JSON.stringify(err))
+              console.log(err.message);
+      })
   }
+
 
 
   applyFilter(event: Event) {

@@ -29,7 +29,8 @@ export class UserStatusComponent implements  OnInit{
       "LoginUserProfileId": 114,
       "RoleId": 2
       };
-      this.TokenService.userStatus(this.TokenService.EncryptedData(UserStatusReport)).then(async res => {
+      let api = 'WebAdminPanel/UserStatusReport';
+      this.TokenService.postdata(this.TokenService.EncryptedData(UserStatusReport),api).then(async res => {
       let deceryptedData = await this.TokenService.DecryptedData(res['response']);
       console.log(deceryptedData);
       let TableData = deceryptedData.responseValue.UserStatusReportData;
