@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { EChartsOption } from 'echarts';
-import { NgxEchartsModule } from 'ngx-echarts';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { TokenService } from '../token.service';
+import { PreFillService } from '../pre-fill.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -45,7 +45,8 @@ export class DashboardComponent implements OnInit {
   trendingTop10MetaTags: any;
   MetaTags: any;
   Users: any;
-
+  userProfileId: any;
+  roleId: any;
   public chartOption;
   public donutchartOption;
   public MetaTagchartOption;
@@ -53,16 +54,30 @@ export class DashboardComponent implements OnInit {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
-  constructor(private http: HttpClient, private TokenService: TokenService) { this.getAllData(); }
+  constructor(private http: HttpClient, private TokenService: TokenService,
+    private prefillService: PreFillService, private router: Router) { }
 
   ngOnInit() {
+    debugger;
+    if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
+      console.log("User Profile Id is" + " " + this.prefillService.getUserId());
+      console.log("Role Id is " + " " + this.prefillService.getRoleId());
+      this.userProfileId = this.prefillService.getUserId();
+      this.roleId = this.prefillService.getRoleId();
+      console.log(this.userProfileId);
+      console.log(this.roleId);
+      this.getAllData();
+    }
+    else if (this.userProfileId == undefined && this.roleId == undefined) {
+      this.router.navigate(['login']);
+    }
 
   }
 
   getAllData() {
     let DashboardRequest = {
-      "LoginUserProfileId": 114,
-      "RoleId": 2,
+      "LoginUserProfileId": this.userProfileId,
+      "RoleId": this.roleId,
     };
     let api = 'WebAdminPanel/webDashboardData';
     this.TokenService.postdata(this.TokenService.EncryptedData(DashboardRequest), api).then(async res => {
@@ -271,7 +286,7 @@ export class DashboardComponent implements OnInit {
           // border:1,
           // min: 0,
           // max: 400,
-          interval: 50,
+          interval: 5,
           axisLine: {
             show: true,
             lineStyle: {
@@ -306,6 +321,7 @@ export class DashboardComponent implements OnInit {
     }).catch(err => {
       JSON.parse(JSON.stringify(err))
       console.log(err.message);
+      // this.router.navigate(['login']);
     })
   }
 

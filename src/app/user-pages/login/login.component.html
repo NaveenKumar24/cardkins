@@ -1,4 +1,4 @@
-<div class="d-flex align-items-center auth px-0">
+<!-- <div class="d-flex align-items-center auth px-0">
   <div class="row w-100 mx-0">
     <div class="col-lg-4 mx-auto">
       <div class="auth-form-light text-left py-5 px-4 px-sm-5">
@@ -39,4 +39,62 @@
       </div>
     </div>
   </div>
-</div>  
+</div>   -->
+
+<div id="content">
+  <div class="brand-logo text-center py-15">
+    <img src="../../assets/images/logo.png" alt="logo">
+  </div>
+      <h4 class="font-weight-bold text-center">Welcome Back !</h4>
+      <h5 class="font-weight-light text-center">Sign in to continue to CardKins.</h5>
+      <form #If="ngForm" [formGroup]="LoginForm">       
+        <div class="mb-4">
+          <label class="form-check-label font-weight-bold">Country Code</label>
+          <ngx-intl-tel-input 
+            [cssClass]="'custom'" 
+            [preferredCountries]="preferredCountries"
+            [enableAutoCountrySelect]="false" 
+            [enablePlaceholder]="true" 
+            [searchCountryFlag]="true"
+            [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+            [selectFirstCountry]="false" 
+            [selectedCountryISO]="CountryISO.India"
+            [maxLength]="15"                
+            [phoneValidation]="true" 
+            [separateDialCode]="separateDialCode"
+            name="phone" formControlName="phone" [(ngModel)]="countryCode" (countryChange)="onCountryChange($event)">
+          </ngx-intl-tel-input>
+        </div>
+        <div *ngIf="submitted" class="mb-4">
+          <div class="alert alert-danger" *ngIf="!f.form.value.phone">Phone Number Required</div>
+        </div>
+        <div class="mb-4"> 
+            <label class="form-check-label font-weight-bold">Password</label>
+            <input type="password" class="form-control" placeholder="Password" name="password" formControlName="password" [(ngModel)]="password">
+        </div>
+        <div *ngIf="submitted" class="mb-4">
+          <div class="alert alert-danger" *ngIf="!f.form.value.password">Password Required</div>
+        </div>
+        <!-- <div *ngIf="submitted" class="mb-4">
+          <div class="alert alert-danger" *ngIf="!f.form.value.phone">Phone Number Required</div>
+          <div class="alert alert-danger" *ngIf="!f.form.value.password">Password Required</div>
+        </div> -->
+        <div class="mt-4 d-flex justify-content-between align-items-center row">
+          <div class="col-6">
+              <div class="form-check">
+                  <label class="form-check-label font-weight-bold">
+                    <input type="checkbox" class="form-check-input">
+                    <i class="input-helper"></i>
+                    Remember me
+                  </label>
+                </div>
+          </div>
+          <div class="col-6">
+            <a class="btn btn-block btn-custom btn-md font-weight-medium auth-form-btn" (click)="LogInTest()">Log In</a>
+
+              <!-- <a class="btn btn-block btn-custom btn-md font-weight-medium auth-form-btn" (click)="LogIn()">Log In</a> -->
+          </div>
+      </div>
+      </form>   
+   
+</div>

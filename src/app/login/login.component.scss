@@ -1,0 +1,33 @@
+
+html, body {height:100%; position:relative; background: orange;}
+body[_ngcontent-c0] { background: yellow;}
+.w-100 {
+      width: 100% !important;
+      background: red;
+  }
+#content {margin:auto; padding: 2rem;height: max-content;width: 400px;position:fixed;top:0;bottom:0;left:0;right:0;background:#FFF; 
+      border-radius: 0.25rem;
+     
+}
+
+.auth form .auth-form-btn {padding: 0.5rem 0.5rem;line-height: 1.5;}
+.btn-custom {color: #FFF;background: #216baf;background-color: #216baf;}
+.sign-up { color: #FFF;}
+.sign-up a { color: #06438f; font-weight: 500; cursor: pointer;}
+.copyrightsText{ color: #FFF;}
+.form-control {    padding: 0.875rem 0.5rem;}
+.py-15 { padding: 15px 0px; }
+.loginBg {
+      background: linear-gradient(
+                -45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+                    background-size: 400% 400%;
+                    animation: gradient 15s ease infinite;
+                    height: 100vh;
+    }
+// .loginBg {
+//       background: linear-gradient(
+//         -45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+//             background-size: 400% 400%;
+//             animation: gradient 15s ease infinite;
+//             height: 100vh;
+//     }

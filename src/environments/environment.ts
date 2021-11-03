@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api : "http://cardkinsapi.cardkins.com/CardkinsdevApi/api/"
+  api : "/api"
 };
 
 /*

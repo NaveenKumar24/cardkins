@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, ViewChild, OnInit} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 export interface PeriodicElement {
@@ -10,17 +10,17 @@ export interface PeriodicElement {
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {devicename: 'Projector', NoOfUsers: 70},
-  {devicename: 'Projector', NoOfUsers: 70},
-  {devicename: 'Printers', NoOfUsers: 33},
-  {devicename: 'Plotters', NoOfUsers: 35},
-  {devicename: 'Monitor', NoOfUsers: 30},
-  {devicename: 'Microfiche', NoOfUsers: 50},
-  {devicename: 'LCD Projection Panels	', NoOfUsers: 22},
-  {devicename: 'Head Phone', NoOfUsers: 40},
-  {devicename: 'Head Phone', NoOfUsers: 40},
-  {devicename: 'Computer Output Microfilm	', NoOfUsers: 60},
-  {devicename: 'Computer Output Microfilm		', NoOfUsers: 60}
+  { devicename: 'Projector', NoOfUsers: 70 },
+  { devicename: 'Projector', NoOfUsers: 70 },
+  { devicename: 'Printers', NoOfUsers: 33 },
+  { devicename: 'Plotters', NoOfUsers: 35 },
+  { devicename: 'Monitor', NoOfUsers: 30 },
+  { devicename: 'Microfiche', NoOfUsers: 50 },
+  { devicename: 'LCD Projection Panels	', NoOfUsers: 22 },
+  { devicename: 'Head Phone', NoOfUsers: 40 },
+  { devicename: 'Head Phone', NoOfUsers: 40 },
+  { devicename: 'Computer Output Microfilm	', NoOfUsers: 60 },
+  { devicename: 'Computer Output Microfilm		', NoOfUsers: 60 }
 ];
 
 @Component({

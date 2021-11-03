@@ -1,0 +1,9 @@
+
+{
+    "/api": {
+      "target": "https://cardkinsapi.cardkins.com/CardkinsApi/api/",
+      "secure": false,
+      "changeOrigin": true,
+      "pathRewrite": {"^/api" : ""}
+    }
+  }

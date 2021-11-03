@@ -7,6 +7,7 @@ html {
 
 body {
   background: $content-bg;
+ 
 }
 
 *:-moz-full-screen,
@@ -44,9 +45,16 @@ body {
     transition: none;
   }
 }
+// .loginBg {
+//   background: linear-gradient(
+//     -45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+//         background-size: 400% 400%;
+//         animation: gradient 15s ease infinite;
+//         height: 100vh;
+// }
 
 .content-wrapper {
-  background: $content-bg;
+  // background: $content-bg;
   padding: 2.75rem 2.25rem;
   width: 100%;
   @include flex-grow(1);

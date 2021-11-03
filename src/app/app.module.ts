@@ -25,6 +25,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule} from '@angular/material/select';
 import { EventAnalyticsModule } from './event-analytics/event-analytics.module';
+import { LoginComponent } from './login/login.component';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { RouterModule } from '@angular/router';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -38,10 +42,12 @@ import { EventAnalyticsModule } from './event-analytics/event-analytics.module';
     SpinnerComponent,
     ContentAnimateDirective,
     DevicSpecsReportComponent,
+    LoginComponent,
     // EventwisereportComponent,
     // UserwisereportComponent
   ],
   imports: [
+    RouterModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule,
@@ -56,6 +62,8 @@ import { EventAnalyticsModule } from './event-analytics/event-analytics.module';
     MatPaginatorModule,
     MatSortModule,
     MatSelectModule,
+    NgxIntlTelInputModule,
+    ToastrModule.forRoot(),
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     })

@@ -1,9 +1,12 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import  { TokenService } from '../../token.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { TokenService } from '../../token.service';
+import { PreFillService } from '../../pre-fill.service';
+
 
 @Component({
   selector: 'app-eventwisereport',
@@ -11,25 +14,38 @@ import  { TokenService } from '../../token.service';
   styleUrls: ['./eventwisereport.component.scss']
 })
 export class EventwisereportComponent implements OnInit {
-  dataSource:any;
+  dataSource: any;
+  userProfileId: any; roleId: any;
   displayedColumns: string[] = ['EventName', 'NoOfUsers'];
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
- 
-  constructor(private http: HttpClient,private TokenService: TokenService) { }
+
+  constructor(private http: HttpClient, private TokenService: TokenService, private prefillService: PreFillService,
+    private router: Router) { }
 
   ngOnInit() {
-    this.getEventWiseReport();
+    debugger;
+    if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
+      console.log("User Profile Id is" + " " + this.prefillService.getUserId());
+      console.log("Role Id is " + " " + this.prefillService.getRoleId());
+      this.userProfileId = this.prefillService.getUserId();
+      this.roleId = this.prefillService.getRoleId();
+      this.getEventWiseReport();
+    }
+    else if (this.userProfileId == undefined && this.roleId == undefined) {
+      this.router.navigate(['login']);
+    }
+
   }
 
   getEventWiseReport() {
     let EventWiseReport = {
-      "LoginUserProfileId": 114,
-      "RoleId": 2,
+      "LoginUserProfileId": this.userProfileId,
+      "RoleId": this.roleId,
     };
     let api = 'WebAdminPanel/EventWiseReport';
-    this.TokenService.postdata(this.TokenService.EncryptedData(EventWiseReport),api).then(async res => {
+    this.TokenService.postdata(this.TokenService.EncryptedData(EventWiseReport), api).then(async res => {
       let deceryptedData = await this.TokenService.DecryptedData(res['response']);
       console.log(deceryptedData);
       let TableData = deceryptedData.responseValue.EventWiseDataReport;
@@ -37,10 +53,11 @@ export class EventwisereportComponent implements OnInit {
       this.dataSource = new MatTableDataSource(TableData);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      }).catch(err => {
-              JSON.parse(JSON.stringify(err))
-              console.log(err.message);
-      })
+    }).catch(err => {
+      JSON.parse(JSON.stringify(err))
+      console.log(err.message);
+      // this.router.navigate(['login']);
+    })
   }
 
 

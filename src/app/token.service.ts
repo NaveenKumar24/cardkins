@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import * as express from 'express';
+import { createProxyMiddleware, Filter, Options, RequestHandler } from 'http-proxy-middleware';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +17,14 @@ export class TokenService {
   baseURL = environment.api;
 
  headers = new HttpHeaders({
-    'Content-Type': 'text/json',
-     'Authorization-Token':  this.generateToken(),
-    //   // "Access-Control-Allow-Origin" : "*",
-    //   // "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
-    //   // "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+  'Access-Control-Allow-Origin' : '*',
+  'Access-Control-Allow-Methods' : 'GET,POST,PUT,DELETE,OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
+  'Content-Type': 'text/json',
+  'Authorization-Token':  this.generateToken(),
+      
   });
+  // const app = express();
   constructor(private http: HttpClient) { }
 
 
@@ -101,7 +105,7 @@ export class TokenService {
   EncryptedData(encryptedData){
     var str = encryptedData;
     var ConvertToJSON = str;
-    console.log(ConvertToJSON);
+    // console.log(ConvertToJSON);
       // console.log("Encrypted Data is" + " " + JSON.parse('+ 'encryptedData));
       var iv = CryptoJS.enc.Hex.parse('e84ad660c4721ae0e84ad660c4721ae0');
       //Encoding the Password in from UTF8 to byte array
@@ -118,11 +122,14 @@ export class TokenService {
           padding: CryptoJS.pad.Pkcs7 
         });
       let encryptedResponse = CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
+      console.log(encryptedResponse);
       return encryptedResponse;
   }
 
   DecryptedData(response) {
-     var iv = CryptoJS.enc.Hex.parse('e84ad660c4721ae0e84ad660c4721ae0');
+    // let test = 'DGNv0E7HTYh6S1lqeSWkNgC0US24bozOXiRyiwR7cN5gfUXaxMPbhsgY69NKkBV5qybfuK8KiqThvztiHr5cXSfGT7pT5WufHHmpjwfOfPw4PjsmvUKMtMIjaOjxuiscTk7EXxd+AZ7Htqz8VyKHpUYuuM39kXrU49P/woyjGTud2hf7h0oQ56LCJA0x1sMM3gCk7cOuUgz7423YVbjR9d5ENu4Id+COksUDpevBMkWFxSmPN6H1Xm1x4u/3lxIy7Ll/TvH9ekSlzxg8KJ4m/BZacsnjghNxwGLtVSEDe5HGTz8e95NvS4hhy3e4ObURwyhPHZ1y5wbGCakxaotabDz7xcliXYk9hfUQm6I3zMhlJvsdSDhzi5PSLLNo0zU95kErROU/FIPakD77LJfVsyKwVDLZab4wKXX/qnzlu8xiFp4TdJ05+cg7QSieuJaYEc/9GF82mAEFhhRwmbeCNyDt/nq8zUjrKrKH5nSwXhEh3+znM4PK0vyVmA4hzBR5VuyEofsT2BSm25E96u5UTdTwQ3hdqv3bS5F2THQyzVWhUekOhVEaf6wgwaoQuY8hwZe/YuRWWgOKgKptqEuZ6MrBovbc+rgcJfSthj913TuzmLV4Tjy2u/e3/0D737gJaFGsrVLNLQ29C8Tgrg8hdrdTkSPkVhicd4CTDs1QbCxrMLEJ7Wubml1lSHG4PvUCCJmm4ifm5wNO41HJltTo+hndQ0pw2PtViYEIaPe5SnmWSPFmzBqNc7ZZp3L65e/0/zlk5XDMa1KFXxHpmQ3hCZUfQ5fsM0TnDg18A+kWQYIVfjZmRpeUdNPE4K3Xa1DAfHhA2J6z8hOT1GUsV8/UI3vuyp8Tus4/sXLgNuR1hWUmjvW14F9GQsRikFYDoQl58enRWxQEi8+P7+dRobkHl1XIjtaxikjDMl3eo+7o1X6LDz6T2H/kW2KmdYhGVpIehC0pksUwf1zNIhocll+zRJVoMT6O80SLTIBFSt+/6yPxsUvq8EeDYwxn8uF2l1wW2JNxVJEG5G0aZEn/HzoZ6bBsNZsvJ4pchaPBlOFAh1BhW9S1Nd8Cp49MgE03BXGZY3DmTay1WWE5uJsgLR1USVb1cDZRVRUIWk1qewuo3+ijN3V6dGgKi02l4zVYZ+8ZtWaTZtXtqxYF2UkxwoE9TjW1MK87X1fkV37Xb0v3KY4BDvXNrwM+goUZkGkAEbHkcAROs9hJTPf9YA7zDqBvuazMnd2YYw9RSX1WrgNeip0Dr1t5GAKggdz5AE/aXWCOQJ8mzPAnm1M8Hp2xVbyot5ADQrBGmyAXzuDlTlmHf38P3lGdVxllWegAlrKGZUA1xZoHSjh86B/F+YtnH9T9EIwlET+tgvr1k9jjc5CtZUMRCSQwXf7/FPOIAWdOFePyAFwD7wxkzEjIR3uBreYyOZPZhXbQSH78FQJdo7I0x7Pnn/BdIj1wfUmLfR1yJZcm/9edYTBWkqwMPsFuX50xzSrtJknvY9NWFK/dPa7+va5w/pFWzD+NrlcdJk9xrmN7';
+    // console.log("Decrypted Request is" + " "+ test); 
+    var iv = CryptoJS.enc.Hex.parse('e84ad660c4721ae0e84ad660c4721ae0');
      //Encoding the Password in from UTF8 to byte array
      var Pass = CryptoJS.enc.Utf8.parse('Y2FyZGtpbnNzYWx0a2V5');
      //Encoding the Salt in from UTF8 to byte array
@@ -131,8 +138,9 @@ export class TokenService {
      var key128Bits1000Iterations = CryptoJS.PBKDF2(Pass.toString(CryptoJS.enc.Utf8), Salt, { keySize: 128 / 32, iterations: 1000 });
      //Enclosing the test to be decrypted in a CipherParams object as supported by the CryptoJS libarary
      var decrypted = CryptoJS.AES.decrypt(response, key128Bits1000Iterations, { mode: CryptoJS.mode.CBC, iv: iv, padding: CryptoJS.pad.Pkcs7 });
-      console.log(JSON.parse(decrypted.toString(CryptoJS.enc.Utf8)));
+      // console.log(JSON.parse(decrypted.toString(CryptoJS.enc.Utf8)));
       let DecryptOutput = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
+      // console.log(DecryptOutput);
       return (DecryptOutput);
   }
   
@@ -141,35 +149,35 @@ export class TokenService {
      return this.http.post(this.baseURL +url, body,{ headers: this.headers}).toPromise();
   }
 
-  metaTagsReport(encryptString) {
-    let body ={"request": (encryptString)}
-     return this.http.post(this.baseURL +'WebAdminPanel/MetaTagsReport', body,{ headers: this.headers}).toPromise();
-  }
+  // metaTagsReport(encryptString) {
+  //   let body ={"request": (encryptString)}
+  //    return this.http.post(this.baseURL +'WebAdminPanel/MetaTagsReport', body,{ headers: this.headers}).toPromise();
+  // }
 
-  userStatus(encryptString) {
-    let body ={"request": (encryptString)}
-    return this.http.post(this.baseURL +'WebAdminPanel/UserStatusReport', body,{ headers: this.headers}).toPromise();
-  }
+  // userStatus(encryptString) {
+  //   let body ={"request": (encryptString)}
+  //   return this.http.post(this.baseURL +'WebAdminPanel/UserStatusReport', body,{ headers: this.headers}).toPromise();
+  // }
 
-  countOfExchangedCards(encryptString) {
-    let body ={"request": (encryptString)}
-    return this.http.post(this.baseURL +'WebAdminPanel/ExchangedAndScannedCardReport', body,{ headers: this.headers}).toPromise();
-  }
+  // countOfExchangedCards(encryptString) {
+  //   let body ={"request": (encryptString)}
+  //   return this.http.post(this.baseURL +'WebAdminPanel/ExchangedAndScannedCardReport', body,{ headers: this.headers}).toPromise();
+  // }
 
-  countOfScannedContacts(encryptString) {
-    let body ={"request": (encryptString)}
-    return this.http.post(this.baseURL +'WebAdminPanel/ExchangedAndScannedCardReport', body,{ headers: this.headers}).toPromise();
-  }
+  // countOfScannedContacts(encryptString) {
+  //   let body ={"request": (encryptString)}
+  //   return this.http.post(this.baseURL +'WebAdminPanel/ExchangedAndScannedCardReport', body,{ headers: this.headers}).toPromise();
+  // }
 
-  UserVisingCards(encryptString) {
-    let body ={"request": (encryptString)}
-    return this.http.post(this.baseURL +'WebAdminPanel/UserCardDetailsReport', body,{ headers: this.headers}).toPromise();
-  }
+  // UserVisingCards(encryptString) {
+  //   let body ={"request": (encryptString)}
+  //   return this.http.post(this.baseURL +'WebAdminPanel/UserCardDetailsReport', body,{ headers: this.headers}).toPromise();
+  // }
 
-  UserVisingCardsMeta(encryptString){
-    let body ={"request": (encryptString)}
-    return this.http.post(this.baseURL +'WebAdminPanel/UserEVistingCardMetaTagReport', body,{ headers: this.headers}).toPromise();
-  }
+  // UserVisingCardsMeta(encryptString){
+  //   let body ={"request": (encryptString)}
+  //   return this.http.post(this.baseURL +'WebAdminPanel/UserEVistingCardMetaTagReport', body,{ headers: this.headers}).toPromise();
+  // }
 
 }
 

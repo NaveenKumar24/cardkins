@@ -50,7 +50,7 @@
           width: 18px;
           height: 18px;
           border-radius: 2px;
-          border: solid theme-color(primary);
+          border: solid rgba(0,0,0,.25);
           border-width: 2px;
           @include transition(all);
           transition-duration: 0s;

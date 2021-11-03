@@ -21,7 +21,13 @@
               </ng-container>
                 <ng-container matColumnDef="Status">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
-                    <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
+                    <td mat-cell *matCellDef="let element">
+                      <mat-form-field appearance="fill" class="custom-dropdown">
+                        <mat-select [(value)]="element.Status" (selectionChange)="onChange($event.value,element)">
+                          <mat-option [value]="option.Status" *ngFor="let option of status">{{ option.Label }}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </td>
                   </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>    

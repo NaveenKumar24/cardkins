@@ -6,6 +6,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+// import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatSelectModule} from '@angular/material/select';
 import { UserStatusComponent } from './user-status/user-status.component';
 import { CountOfExchangedCardsComponent } from './count-of-exchanged-cards/count-of-exchanged-cards.component';
 import { CountOfScannedContactsComponent } from './count-of-scanned-contacts/count-of-scanned-contacts.component';
@@ -29,6 +32,9 @@ const routes: Routes = [
     MatInputModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forChild(routes),
   ]
 })
