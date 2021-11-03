@@ -21,7 +21,7 @@
               [phoneValidation]="true" 
               [separateDialCode]="separateDialCode"
               value="8050733916"
-              name="phone" formControlName="phone" [(ngModel)]="phoneNumber" (countryChange)="onCountryChange($event)">
+              name="phone" formControlName="phone">
             </ngx-intl-tel-input>
           </div>
           <div *ngIf="submitted" class="mb-4">
@@ -49,7 +49,6 @@
                   </div>
             </div>
             <div class="col-6">
-              <!-- <a class="btn btn-block btn-custom btn-md font-weight-medium auth-form-btn" (click)="LogInTest()">Log In</a> -->
                 <a class="btn btn-block btn-custom btn-md font-weight-medium auth-form-btn" (click)="LogIn()">Log In</a>
             </div>
         </div>

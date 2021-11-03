@@ -11,11 +11,6 @@ import { PreFillService } from '../pre-fill.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  styles : [`
-      :host {
-        background-color: blue;
-      }
-  `]
 })
 
 export class LoginComponent implements OnInit {
