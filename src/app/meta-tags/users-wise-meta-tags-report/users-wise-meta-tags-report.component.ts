@@ -6,6 +6,10 @@ import { HttpClient } from '@angular/common/http';
 import { TokenService } from '../../token.service';
 import { PreFillService } from '../../pre-fill.service';
 import { Router } from '@angular/router';
+import { PopupComponent } from '../../popup/popup.component';
+
+
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-users-wise-meta-tags-report',
@@ -15,14 +19,18 @@ import { Router } from '@angular/router';
 export class UsersWiseMetaTagsReportComponent implements OnInit {
   dataSource: any;
   userProfileId: any; roleId: any;
-  displayedColumns: string[] = ['username', 'NoOfMetaTags'];
+  displayedColumns: string[] = ['username','MobileNumber', 'Email', 'NoOfScannedMetaTags','NoOfExchangedMetaTags'];
+  matDialogRef: MatDialogRef<PopupComponent>;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  // matDialog: any;
 
   constructor(private http: HttpClient, private TokenService: TokenService, private prefillService: PreFillService,
-    private router: Router) { }
+    private router: Router, private matDialog: MatDialog) { }
 
   ngOnInit() {
+      // this.getUserWiseMetaTagsReports();
+
     if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
       console.log("User Profile Id is" + " " + this.prefillService.getUserId());
       console.log("Role Id is " + " " + this.prefillService.getRoleId());
@@ -39,9 +47,13 @@ export class UsersWiseMetaTagsReportComponent implements OnInit {
 
   getUserWiseMetaTagsReports() {
     let UserWiseMetaTagsReport = {
-      "LoginUserProfileId": this.userProfileId,
+      "LoginUserProfileId":this.userProfileId,
       "RoleId": this.roleId
     };
+    // let UserWiseMetaTagsReport = {
+    //   "LoginUserProfileId": this.userProfileId,
+    //   "RoleId": this.roleId
+    // };
     let api = 'WebAdminPanel/UserWiseMetaTagsReport';
     this.TokenService.postdata(this.TokenService.EncryptedData(UserWiseMetaTagsReport), api).then(async res => {
       let deceryptedData = await this.TokenService.DecryptedData(res['response']);
@@ -57,6 +69,60 @@ export class UsersWiseMetaTagsReportComponent implements OnInit {
     })
   }
 
+
+
+  noOfScannedMetaTags(element) {
+    debugger;
+    console.log(element);
+    let UserId = element.UserProfileId;
+
+    let noOfScannedMetaTagsResponse = {
+      "LoginUserProfileId": this.userProfileId,
+       "RoleId": 2,
+       "UserProfileId":UserId,
+       "Flag":"S"
+     }
+
+     let api = '/WebAdminPanel/getUserWiseMetaTagsReport';
+    this.TokenService.postdata(this.TokenService.EncryptedData(noOfScannedMetaTagsResponse),api).then(async res => {
+        let deceryptedData = await this.TokenService.DecryptedData(res['response']);
+        console.log(deceryptedData);
+        console.log(deceryptedData.responseValue);
+        this.prefillService.setUserWiseData(deceryptedData.responseValue);
+        this.showPopup();
+        // this.matDialogRef = this.matDialog.open(PopupComponent, {         
+        //   disableClose: true
+        // });
+    });
+  }
+
+  NoOfExchangedMetaTags(element) {
+    console.log(element);
+    let UserId = element.UserProfileId;
+
+    let noOfScannedMetaTagsResponse = {
+      "LoginUserProfileId":this.userProfileId,
+       "RoleId": this.roleId,
+       "UserProfileId":UserId,
+       "Flag":"E"
+     }
+
+     let api = '/WebAdminPanel/getUserWiseMetaTagsReport';
+    this.TokenService.postdata(this.TokenService.EncryptedData(noOfScannedMetaTagsResponse),api).then(async res => {
+        let deceryptedData = await this.TokenService.DecryptedData(res['response']);
+        console.log(deceryptedData);
+        console.log(deceryptedData.responseValue);
+        this.prefillService.setUserWiseData(deceryptedData.responseValue);
+       this.showPopup();
+    });
+  }
+
+  showPopup() {
+    this.matDialogRef = this.matDialog.open(PopupComponent, {   
+      width : '600px',      
+      disableClose: true
+    });
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit {
     private prefillService: PreFillService, private router: Router) { }
 
   ngOnInit() {
-    debugger;
+    // debugger;
     if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
       console.log("User Profile Id is" + " " + this.prefillService.getUserId());
       console.log("Role Id is " + " " + this.prefillService.getRoleId());
@@ -72,6 +72,8 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['login']);
     }
 
+    // this.getAllData();
+
   }
 
   getAllData() {
@@ -79,6 +81,7 @@ export class DashboardComponent implements OnInit {
       "LoginUserProfileId": this.userProfileId,
       "RoleId": this.roleId,
     };
+    console.log(DashboardRequest);
     let api = 'WebAdminPanel/webDashboardData';
     this.TokenService.postdata(this.TokenService.EncryptedData(DashboardRequest), api).then(async res => {
       let deceryptedData = await this.TokenService.DecryptedData(res['response']);

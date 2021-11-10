@@ -12,22 +12,62 @@
         <div  class="mat-elevation-z8">
             <table mat-table [dataSource]="dataSource" matSort>
                 <ng-container matColumnDef="username">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> UserName </th>
                   <td mat-cell *matCellDef="let element"> {{element.UserName}} </td>
                 </ng-container>
-                <ng-container matColumnDef="NoOfMetaTags">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> No Of Meta Tags</th>
-                  <td mat-cell *matCellDef="let element"> {{element.NoOfMetaTags}} </td>
+                <ng-container matColumnDef="MobileNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> MobileNumber </th>
+                  <td mat-cell *matCellDef="let element"> {{element.CountryCode}} - {{element.PhoneNumber}} </td>
                 </ng-container>
+                <ng-container matColumnDef="Email">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> EmailId </th>
+                  <td mat-cell *matCellDef="let element"> {{element.Email}} </td>
+                </ng-container>
+                <!-- <ng-container matColumnDef="NoOfMetaTags">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> No Of Meta Tags</th>
+                  <td mat-cell *matCellDef="let element" class="center"> 
+                    <div  class="display-flex">
+                      <p>{{element.NoOfMetaTags}} </p>
+                      <mat-icon aria-hidden="false" aria-label="Example home icon" class="icon-style">remove_red_eye</mat-icon>
+                    </div>                    
+                  </td>
+                </ng-container> -->
+                <ng-container matColumnDef="NoOfScannedMetaTags">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> No Of Scanned Meta Tags</th>
+                  <td mat-cell *matCellDef="let element" class="center"> 
+                      <div class="display-flex"> 
+                        <p>{{element.NoOfScannedMetaTags}} </p>
+                        <mat-icon aria-hidden="false" aria-label="Example home icon" class="icon-style"  (click)="noOfScannedMetaTags(element)">remove_red_eye</mat-icon>
+                      </div>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="NoOfExchangedMetaTags">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> No Of Exchanged Meta Tags</th>
+                  <td mat-cell *matCellDef="let element" class="center"> 
+                    <div class="display-flex">
+                      <p>{{element.NoOfExchangedMetaTags}} </p>
+                      <p (click)="NoOfExchangedMetaTags($event)">
+                      <mat-icon aria-hidden="false" aria-label="Example home icon" class="icon-style" (click)="NoOfExchangedMetaTags(element)">remove_red_eye</mat-icon>
+                      </p>
+                    </div>                   
+                  </td>
+                </ng-container>
+                <!-- <ng-container matColumnDef="Profile">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Profile</th>
+                  <td mat-cell *matCellDef="let element">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon">remove_red_eye</mat-icon>
+                  </td>
+                </ng-container> -->
+                <!-- (click)="selectedRow(row)" -->
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>    
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>     
                 <tr class="mat-row" *matNoDataRow>
                     <td class="mat-cell" colspan="2">No data matching the filter "{{input.value}}"</td>
                   </tr>
               </table>    
           </div>              
     </div>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+    <mat-paginator [pageSizeOptions]="[25, 50, 75, 100]"
     showFirstLastButtons 
     aria-label="Select page of periodic elements">
     </mat-paginator>

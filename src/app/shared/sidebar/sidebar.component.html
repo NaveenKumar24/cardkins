@@ -3,16 +3,15 @@
     <li class="nav-item" [ngClass]="{ 'active': dashboard.isActive }">
       <a class="nav-link" routerLink="/dashboard" routerLinkActive #dashboard="routerLinkActive">
         <i class="mdi mdi-view-dashboard menu-icon"></i>
-        <span class="menu-title">Dashboard</span>
-       
+        <span class="menu-title">Dashboard</span>       
       </a>
     </li>
-    <li class="nav-item" [ngClass]="{ 'active': deviceSpecsReport.isActive }">
+    <!-- <li class="nav-item" [ngClass]="{ 'active': deviceSpecsReport.isActive }">
       <a class="nav-link" routerLink="/deviceSpecsReport" routerLinkActive #deviceSpecsReport="routerLinkActive">
         <i class="mdi mdi-cube-outline menu-icon"></i>
         <span class="menu-title">Device Specs Report</span>        
       </a>
-    </li>
+    </li> -->
     <li class="nav-item" [ngClass]="{'active' : eventWiseReport.isActive || userWiseReport.isActive}">
       <a class="nav-link" (click)="eventAnalyticsCollapsed = !eventAnalyticsCollapsed" [attr.aria-expanded]="eventAnalyticsCollapsed" aria-controls="ui-basic">
         <i class="mdi mdi-format-list-bulleted-type menu-icon"></i>
@@ -26,7 +25,7 @@
          </ul>
       </div>
     </li>
-    <li class="nav-item" [ngClass]="{ 'active' : userStatus.isActive || countOfExchangeCards.isActive || countOfScannedContacts.isActive || usersEVisitingCards.isActive || usersEVisitingCardsMeta.isActive }">
+    <li class="nav-item" [ngClass]="{ 'active' : userStatus.isActive || countOfCards.isActive  || usersEVisitingCards.isActive || usersEVisitingCardsMeta.isActive }">
       <a class="nav-link" (click)="userListCollapsed = !userListCollapsed"  [attr.aria-expanded]="userListCollapsed" aria-controls="auth">
         <i class="mdi mdi-buffer menu-icon"></i>
         <span class="menu-title">User List Report</span>
@@ -35,8 +34,8 @@
       <div class="collapse" id="auth" [ngbCollapse]="!userListCollapsed">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" routerLink="userListReport/userStatus" routerLinkActive="active" #userStatus="routerLinkActive"> User Status</a></li>
-          <li class="nav-item"> <a class="nav-link" routerLink="userListReport/countOfExchangeCards" routerLinkActive="active" #countOfExchangeCards="routerLinkActive"> Count of Exchanged Cards </a></li>
-          <li class="nav-item"> <a class="nav-link" routerLink="userListReport/countOfScannedContacts" routerLinkActive="active" #countOfScannedContacts="routerLinkActive"> Count of Scanned Contacts </a></li>
+          <li class="nav-item"> <a class="nav-link" routerLink="userListReport/countOfCards" routerLinkActive="active" #countOfCards="routerLinkActive"> Count of Cards </a></li>
+          <!-- <li class="nav-item"> <a class="nav-link" routerLink="userListReport/countOfScannedContacts" routerLinkActive="active" #countOfScannedContacts="routerLinkActive"> Count of Scanned Contacts </a></li> -->
           <li class="nav-item"> <a class="nav-link" routerLink="userListReport/usersEVisitingCards" routerLinkActive="active" #usersEVisitingCards="routerLinkActive"> Users e-visiting Cards </a></li>
           <li class="nav-item"> <a class="nav-link" routerLink="userListReport/usersEVisitingCardsMeta" routerLinkActive="active" #usersEVisitingCardsMeta="routerLinkActive"> Users e-visiting Cards Meta </a></li>
         </ul>

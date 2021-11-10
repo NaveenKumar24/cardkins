@@ -4,8 +4,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Routes, RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+// import { PopupComponent } from '../popup1/popup1.component';
 // import { FormsModule } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
@@ -17,19 +19,21 @@ import { UserseVisitingCardsMetaComponent } from './userse-visiting-cards-meta/u
 
 const routes: Routes = [
   { path: 'userStatus', component: UserStatusComponent },
-  { path: 'countOfExchangeCards', component: CountOfExchangedCardsComponent},
-  { path: 'countOfScannedContacts', component: CountOfScannedContactsComponent},
+  { path: 'countOfCards', component: CountOfExchangedCardsComponent},
+  // { path: 'countOfScannedContacts', component: CountOfScannedContactsComponent},
   { path: 'usersEVisitingCards', component: UserseVisitingCardsComponent},
   { path: 'usersEVisitingCardsMeta', component: UserseVisitingCardsMetaComponent},
 ];
 
 @NgModule({
-  declarations: [UserStatusComponent, CountOfExchangedCardsComponent, CountOfScannedContactsComponent, UserseVisitingCardsComponent, UserseVisitingCardsMetaComponent],
+  declarations: [UserStatusComponent, CountOfExchangedCardsComponent, CountOfScannedContactsComponent, UserseVisitingCardsComponent, 
+    UserseVisitingCardsMetaComponent],
   imports: [
     CommonModule,
     NgbModule,
     MatTableModule,
     MatInputModule,
+    MatIconModule,
     MatPaginatorModule,
     MatSortModule,
     MatSelectModule,

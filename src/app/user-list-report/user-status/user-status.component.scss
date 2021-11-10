@@ -1,14 +1,12 @@
 
 table {width: 100%;}
 table th { background: #205793 ; color: #FFF; font-size: 14px;}
-
-  .mat-form-field {
-    font-size: 14px;
-    width: 100%;
-  }
-  .example-additional-selection {
-    opacity: 0.75;
-    font-size: 0.75em;
-    width: 250px;
-  }
-  
+.mat-form-field {font-size: 14px;width: 100%;}
+.example-additional-selection {opacity: 0.75;font-size: 0.75em;width: 250px;}
+.status-dropdown { width: auto; height: 30px;margin-top: 10px;
+  margin-bottom: 20px;}
+.display-flex { display: inline-flex;}
+.center { text-align: center;}
+.ml-10 { margin-left: 10px;}
+.icon-style { margin-left: 10px;cursor: pointer;}
+.mat-sort-header-content {text-align: center;display: flex;align-items: center;font-size: 13px !important;}

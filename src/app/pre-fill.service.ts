@@ -7,6 +7,9 @@ export class PreFillService {
   userId: any;
   roleId:any;
   userCardId:any;
+  userWiseReportData:any;
+  userWiseMetaTags:any;
+  userWiseMetaTagsReport:any;
 
   constructor() { }
 
@@ -32,4 +35,24 @@ export class PreFillService {
   getUserCardId():number {
     return this.userCardId
   }
+
+  setUserWiseData(userWiseReportData: any) {
+    this.userWiseReportData = userWiseReportData;
+  }
+
+  getUserWiseData(): number {
+    return this.userWiseReportData;
+  }
+
+  // setUserWiseMetaTagsData(userWiseMetaTagsReport: any) {
+  //     this.userWiseMetaTagsReport = userWiseMetaTagsReport
+  // }
+
+
+
+  // setUserWiseMetaTagsReport(userWiseMetaTags: any) {
+  //   this.userWiseMetaTags = userWiseMetaTags;
+  // }
+
+  // getUser
 }

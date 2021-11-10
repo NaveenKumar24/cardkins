@@ -26,6 +26,7 @@ export class EventwisereportComponent implements OnInit {
 
   ngOnInit() {
     debugger;
+    // this.getEventWiseReport();
     if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
       console.log("User Profile Id is" + " " + this.prefillService.getUserId());
       console.log("Role Id is " + " " + this.prefillService.getRoleId());

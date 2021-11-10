@@ -1,13 +1,13 @@
 <div class="loginbg">
   <div id="content" class="bg">
     <div class="brand-logo text-center py-15">
-      <img src="../../assets/images/logo.png" alt="logo">
+      <img src="./assets/images/logo.png" alt="logo">
     </div>
         <h4 class="font-weight-bold text-center">Welcome Back !</h4>
         <h5 class="font-weight-light text-center">Sign in to continue to CardKins.</h5>
         <form #f="ngForm" [formGroup]="LoginForm">       
           <div class="mb-4">
-            <label class="form-check-label font-weight-bold">Country Code</label>
+            <label class="form-check-label font-weight-bold">Phone Number</label>
             <ngx-intl-tel-input 
               [cssClass]="'custom'" 
               [preferredCountries]="preferredCountries"

@@ -4,6 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Routes, RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { UsersWiseMetaTagsReportComponent } from './users-wise-meta-tags-report/users-wise-meta-tags-report.component';
@@ -22,6 +23,7 @@ const routes: Routes = [
     MatInputModule,
     MatPaginatorModule,
     MatSortModule,
+    MatIconModule,
     RouterModule.forChild(routes),
   ]
 })

@@ -1,0 +1,42 @@
+mat-header-row {
+    min-height: 56px;
+    background: #205793;
+    color: #FFF;
+}
+
+.mat-header-cell {
+    color: #FFF;
+}
+.icon-style {
+    float: right;
+    text-align: right;
+    cursor: pointer;
+}
+.mat-dialog-container {
+    padding: 10px;
+}
+
+mat-table {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    justify-content: flex-start;
+    min-height: auto;
+    max-height: 250px;
+    overflow-y: auto;
+    background: white;
+
+    // taken from https://github.com/angular/components/issues/8680            
+    .table-container {
+        width: 100vw; // <!-- THIS WORKS for horizontal scrolling (all columns visibile)
+        // width: 100%; // <!-- THIS DOESNT for horizontal scrolling (no scrollbars)
+        // width: 2800px; // <!-- THIS ALSO DOESNT for horizontal scrolling (no scrollbars)
+    }
+
+    .mat-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+}

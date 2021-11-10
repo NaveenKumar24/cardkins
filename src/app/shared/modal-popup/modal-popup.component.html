@@ -1,0 +1,110 @@
+<div class="row">
+    <div class="col-12">   
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-11"></div>
+                    <div class="col-1">
+                        <mat-icon aria-hidden="false" aria-label="Example home icon" class="icon-style" (click)="closeDialogue()">close</mat-icon>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-9"></div>
+                    <div class="col-3">
+                        <mat-form-field appearance="standard">
+                            <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
+                          </mat-form-field>
+                    </div>
+                </div> -->
+                <div class="row">
+                    <div class="col-12">
+                        <div  class="mat-elevation-z8">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Active</th>
+                                            <th>Card FirstName</th>
+                                            <th>Card LastName</th>
+                                            <th>Card MiddleName</th>
+                                            <th>CardName</th>
+                                            <th>Company Address</th>
+                                            <th>Company AreaCode</th>
+                                            <th>Company City</th>
+                                            <th>Company Country</th>
+                                            <th>Company Name</th>
+                                            <th>Company State</th>
+                                            <th>CreatedBy</th>
+                                            <th>Created Datetime</th>
+                                            <th>EndMonth</th>
+                                            <th>EndYear</th>
+                                            <th>Fax</th>
+                                            <th>Id</th>
+                                            <th>Industry</th>
+                                            <th>IsArchived</th>
+                                            <th>IsDefault</th>
+                                            <th>IsVerified</th>
+                                            <th>ModifiedBy</th>
+                                            <th>Modified Datetime</th>
+                                            <th>Office Country Code</th>
+                                            <th>Office MobileNo</th>
+                                            <th>Office PhoneNumber</th>
+                                            <th>Primary Email</th>
+                                            <th>Salutation</th>
+                                            <th>Secondary Email</th>
+                                            <th>Service</th>
+                                            <th>StartMonth</th>
+                                            <th>StartYear</th>
+                                            <th>Title</th>
+                                            <th>User ProfileId</th>
+                                            <th>Website</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of filteredStudents$.value ">
+                                            <td>{{item.Active}}</td>
+                                            <td>{{item.CardFirstName}}</td>
+                                            <td>{{item.CardLastName}}</td>
+                                            <td>{{item.CardMiddleName}}</td>
+                                            <td>{{item.CardName}}</td>
+                                            <td>{{item.CompanyAddress}}</td>
+                                            <td>{{item.CompanyAreaCode}}</td>
+                                            <td>{{item.CompanyCity}}</td>
+                                            <td>{{item.CompanyCountry}}</td>
+                                            <td>{{item.CompanyName}}</td>
+                                            <td>{{item.CompanyState}}</td>
+                                            <td>{{item.CreatedBy}}</td>
+                                            <td>{{item.CreatedDatetime}}</td>
+                                            <td>{{item.EndMonth}}</td>
+                                            <td>{{item.EndYear}}</td>
+                                            <td>{{item.Fax}}</td>
+                                            <td>{{item.Id}}</td>
+                                            <td>{{item.Industry}}</td>
+                                            <td>{{item.IsArchived}}</td>
+                                            <td>{{item.IsDefault}}</td>
+                                            <td>{{item.IsVerified}}</td>
+                                            <td>{{item.ModifiedBy}}</td>
+                                            <td>{{item.ModifiedDatetime}}</td>
+                                            <td>{{item.OfficeCountryCode}}</td>
+                                            <td>{{item.OfficeMobileNo}}</td>
+                                            <td>{{item.OfficePhoneNumber}}</td>
+                                            <td>{{item.PrimaryEmail}}</td>
+                                            <td>{{item.Salutation}}</td>
+                                            <td>{{item.SecondaryEmail}}</td>
+                                            <td>{{item.Service}}</td>
+                                            <td>{{item.StartMonth}}</td>
+                                            <td>{{item.StartYear}}</td>
+                                            <td>{{item.Title}}</td>
+                                            <td>{{item.UserProfileId}}</td>
+                                            <td>{{item.Website}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

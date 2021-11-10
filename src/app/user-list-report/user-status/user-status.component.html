@@ -12,19 +12,48 @@
         <div  class="mat-elevation-z8">
             <table mat-table [dataSource]="dataSource" matSort>
               <ng-container matColumnDef="username">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> UserName </th>
                 <td mat-cell *matCellDef="let element"> {{element.UserName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="MobileNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> MobileNumber </th>
+                <td mat-cell *matCellDef="let element"> {{element.CountryCode}} - {{element.PhoneNumber}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> EmailId </th>
+                <td mat-cell *matCellDef="let element"> {{element.Email}} </td>
+              </ng-container>
+              <ng-container matColumnDef="NoOfArchivedCards">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> NoOf Archived Cards</th>
+                <td mat-cell *matCellDef="let element" class="center"> 
+                    <div class="display-flex"> 
+                      <p>{{element.NoOfArchivedCards}} </p>
+                      <mat-icon aria-hidden="false" aria-label="Example icon" class="icon-style" (click)="noOfArchivedCards(element)">remove_red_eye</mat-icon>
+                    </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="NoOfProfileCards">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> NoOf Profile Cards</th>
+                <td mat-cell *matCellDef="let element" class="center"> 
+                  <div class="display-flex">
+                    <p>{{element.NoOfProfileCards}} </p>
+                    <p>
+                    <mat-icon aria-hidden="false" aria-label="Example icon" class="icon-style" (click)="noOfProfileCards(element)">remove_red_eye</mat-icon>
+                    </p>
+                  </div>                   
+                </td>
               </ng-container>
               <ng-container matColumnDef="Status">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
                 <td mat-cell *matCellDef="let element">
-                  <mat-form-field appearance="fill" class="custom-dropdown" >
+                  <mat-form-field appearance="fill" class="status-dropdown" >
                     <mat-select [(value)]="element.Status" (selectionChange)="onChange($event.value,element)">
                       <mat-option [value]="option.Status" *ngFor="let option of status">{{ option.Label }}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </td>
               </ng-container>
+             
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>    
                 <tr class="mat-row" *matNoDataRow>
@@ -33,7 +62,7 @@
               </table>    
           </div>              
     </div>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+    <mat-paginator [pageSizeOptions]="[25, 50, 75, 100]"
     showFirstLastButtons 
     aria-label="Select page of periodic elements">
     </mat-paginator>

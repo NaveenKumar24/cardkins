@@ -6,6 +6,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from "@angular/material/dialog";
+
+// import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EventwisereportComponent } from './eventwisereport/eventwisereport.component';
 import { UserwisereportComponent } from './userwisereport/userwisereport.component';
 
@@ -24,6 +27,9 @@ const routes: Routes = [
     MatInputModule,
     MatPaginatorModule,
     MatSortModule,
+    MatDialogModule,
+    // MatDialog,
+    // MatDialogRef, 
     RouterModule.forChild(routes),
   ]
 })

@@ -6,6 +6,9 @@ import { HttpClient } from '@angular/common/http';
 import { TokenService } from '../../token.service';
 import { PreFillService } from '../../pre-fill.service';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { PopupComponent } from '../../popup/popup.component';
+
 
 
 @Component({
@@ -17,14 +20,18 @@ export class UserwisereportComponent implements OnInit {
 
   displayedColumns: string[] = ['UserName', 'NoOfEvents'];
   dataSource: any;
+  selectedRowIndex:any;
   userProfileId: any; roleId: any;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  matDialogRef: MatDialogRef<PopupComponent>;
 
-  constructor(private http: HttpClient, private TokenService: TokenService, private prefillService: PreFillService, private router: Router) { }
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
+  constructor(private http: HttpClient, private TokenService: TokenService, private prefillService: PreFillService, private router: Router,
+    private matDialog: MatDialog) { }
 
   ngOnInit() {
-    debugger;
+    // debugger;
     if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
       console.log("User Profile Id is" + " " + this.prefillService.getUserId());
       console.log("Role Id is " + " " + this.prefillService.getRoleId());
@@ -35,10 +42,38 @@ export class UserwisereportComponent implements OnInit {
     else if (this.userProfileId == undefined && this.roleId == undefined) {
       this.router.navigate(['login']);
     }
+    // this.getUserWiseReport();
 
   }
+
   selectedRow(row) {
-    console.log('selectedRow', row)
+    console.log(row);
+    let UserId = row.UserProfileId;
+
+    let NoOfEvents = {
+      "LoginUserProfileId": this.userProfileId,
+      "RoleId": this.roleId,
+      "UserProfileId":UserId
+    }
+
+    let api = 'WebAdminPanel/getUserWiseAuditReport';
+    this.TokenService.postdata(this.TokenService.EncryptedData(NoOfEvents), api).then(async res => {
+        let deceryptedData = await this.TokenService.DecryptedData(res['response']);
+        console.log(deceryptedData);
+        console.log(deceryptedData.responseValue);
+        this.prefillService.setUserWiseData(deceryptedData.responseValue);
+        // let eventName,totalCount;
+        // for (let i = 0 ; i < deceryptedData.responseValue.length; i++) {
+        //   eventName = deceryptedData.responseValue[i].EventName;
+        //   totalCount = deceryptedData.responseValue[i].TotalCount;
+        //   // console.log(eventName + " " + totalCount);
+        // }
+
+        this.matDialogRef = this.matDialog.open(PopupComponent, {         
+          // disableClose: true
+        });
+    });
+
   }
 
   getUserWiseReport() {
@@ -46,8 +81,12 @@ export class UserwisereportComponent implements OnInit {
       "LoginUserProfileId": this.userProfileId,
       "RoleId": this.roleId,
     };
+    //   let UserWiseReport = {
+    //   "LoginUserProfileId": 114,
+    //   "RoleId": 2,
+    // };
     let api = 'WebAdminPanel/UserWiseReport';
-    this.TokenService.postdata(this.TokenService.EncryptedData(UserWiseReport), api).then(async res => {
+      this.TokenService.postdata(this.TokenService.EncryptedData(UserWiseReport), api).then(async res => {
       let deceryptedData = await this.TokenService.DecryptedData(res['response']);
       console.log(deceryptedData);
       let TableData = deceryptedData.responseValue.EventWiseUserDataReport;
@@ -62,6 +101,7 @@ export class UserwisereportComponent implements OnInit {
     })
   }
 
+ 
 
 
   applyFilter(event: Event) {

@@ -7,6 +7,9 @@ import { TokenService } from '../../token.service';
 import { ToastrService } from 'ngx-toastr';
 import { PreFillService } from '../../pre-fill.service';
 import { Router } from '@angular/router';
+import { ModalPopupComponent } from '../../shared/modal-popup/modal-popup.component';
+// import { PopupComponent } from '../../popup1/popup1.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 interface StausType {
   Status: boolean;
@@ -22,7 +25,9 @@ export class UserStatusComponent implements OnInit {
 
   dataSource: any;
   userProfileId: any; roleId: any;
-  displayedColumns: string[] = ['username', 'Status'];
+  matDialogRef: MatDialogRef<ModalPopupComponent>;
+  displayedColumns: string[] = ['username','MobileNumber', 'Email', 'NoOfArchivedCards','NoOfProfileCards', 'Status'];
+
   status: StausType[] = [
     { Status: true, Label: 'Active' },
     { Status: false, Label: 'Inactive' }
@@ -33,10 +38,11 @@ export class UserStatusComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   constructor(private http: HttpClient, private TokenService: TokenService, private toast: ToastrService,
-    private prefillService: PreFillService, private router: Router) { }
+    private prefillService: PreFillService, private router: Router,  private matDialog: MatDialog) { }
 
 
   ngOnInit() {
+    // this.getUserStatus();
     if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
       console.log("User Profile Id is" + " " + this.prefillService.getUserId());
       console.log("Role Id is " + " " + this.prefillService.getRoleId());
@@ -56,6 +62,10 @@ export class UserStatusComponent implements OnInit {
       "LoginUserProfileId": this.userProfileId,
       "RoleId": this.roleId
     };
+    // let UserStatusReport = {
+    //   "LoginUserProfileId": 114,
+    //   "RoleId": 2
+    // };
     console.log(UserStatusReport);
     let api = 'WebAdminPanel/UserStatusReport';
     this.TokenService.postdata(this.TokenService.EncryptedData(UserStatusReport), api).then(async res => {
@@ -71,8 +81,6 @@ export class UserStatusComponent implements OnInit {
       console.log(err.message);
     })
   }
-
-
 
   onChange(value: any, element: any) {
     // console.log(`${JSON.stringify(element)} - Row Click Event from Demo`);
@@ -102,6 +110,87 @@ export class UserStatusComponent implements OnInit {
   }
 
 
+  noOfArchivedCards(element) {
+    console.log(element);
+    let UserId = element.UserProfileId;
+
+    let noOfArchivedCardsResponse = {
+      "LoginUserProfileId": this.userProfileId,
+       "RoleId": this.roleId,
+       "UserProfileId":UserId,
+       "Flag":"A"
+     }
+
+    //  let noOfArchivedCardsResponse = {
+    //   "LoginUserProfileId": 114,
+    //    "RoleId": 2,
+    //    "UserProfileId":UserId,
+    //    "Flag":"A"
+    //  }
+
+     let api = '/WebAdminPanel/getUserStatusReport';
+    this.TokenService.postdata(this.TokenService.EncryptedData(noOfArchivedCardsResponse),api).then(async res => {
+        let deceryptedData = await this.TokenService.DecryptedData(res['response']);
+        console.log(deceryptedData);
+        console.log(deceryptedData.responseValue);
+        let response = deceryptedData.responseValue;       
+        if (response == null) {
+          let ErrorMeaage = deceryptedData.message;
+          this.toast.error(ErrorMeaage, 'Error !', {
+                  timeOut: 3000,
+            });
+        }
+        else {
+          this.prefillService.setUserWiseData(deceryptedData.responseValue);
+          this.showPopup();
+        }
+        
+    });
+  }
+
+  noOfProfileCards(element) {
+    console.log(element);
+    let UserId = element.UserProfileId;
+
+    let noOfProfileCardsResponse = {
+      "LoginUserProfileId": this.userProfileId,
+       "RoleId": this.roleId,
+       "UserProfileId":UserId,
+       "Flag":"N"
+     }
+
+    //  let noOfProfileCardsResponse = {
+    //   "LoginUserProfileId": 114,
+    //    "RoleId": 2,
+    //    "UserProfileId":UserId,
+    //    "Flag":"N"
+    //  }
+
+     let api = '/WebAdminPanel/getUserStatusReport';
+    this.TokenService.postdata(this.TokenService.EncryptedData(noOfProfileCardsResponse),api).then(async res => {
+        let deceryptedData = await this.TokenService.DecryptedData(res['response']);
+        console.log(deceryptedData);
+        console.log(deceryptedData.responseValue);
+        let response = deceryptedData.responseValue;       
+        if (response == null) {
+          let ErrorMeaage = deceryptedData.message;
+          this.toast.error(ErrorMeaage, 'Error !', {
+                  timeOut: 3000,
+            });
+        }
+        else {
+          this.prefillService.setUserWiseData(deceryptedData.responseValue);
+          this.showPopup();
+        }
+    });
+  }
+
+  showPopup() {
+    this.matDialogRef = this.matDialog.open(ModalPopupComponent, {   
+      width : 'auto',      
+      disableClose: true
+    });
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

@@ -45,6 +45,11 @@ export class CountOfScannedContactsComponent implements OnInit {
       "RoleId": this.roleId,
       "Flag": "S"
     };
+    // let CountOfScannedContacts = {
+    //   "LoginUserProfileId": 114,
+    //   "RoleId": 2,
+    //   "Flag": "S"
+    // };
     let api = 'WebAdminPanel/ExchangedAndScannedCardReport';
     this.TokenService.postdata(this.TokenService.EncryptedData(CountOfScannedContacts), api).then(async res => {
       let deceryptedData = await this.TokenService.DecryptedData(res['response']);

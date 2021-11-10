@@ -1,3 +1,34 @@
-.highlightTableColor{
+
+
+  table {
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .highlightTableColor{
     background-color: red
+  }
+
+  .mat-row.hovered {
+    background: #eee;
+  }
+  
+  // .mat-row.highlighted {
+  //   background: #999;
+  // }
+
+  .highlight{
+    background: #42A948; /* green */
+  }
+
+  .mat-row {
+    min-height: 65px;
+ 
+    &.selected {
+        background: #dddddd;
+    }
+ }
+
+ .mat-row.highlighted {
+  background: lightblue;
   }

@@ -52,15 +52,13 @@ export class LoginComponent implements OnInit {
       "PhoneNumber": this.LoginForm.value.phone.e164Number.substring(3),
       "CountryCode": this.LoginForm.value.phone.dialCode,
       "Password": this.LoginForm.value.password,
-      "RoleId": 2
     }
 
-    // "{
-    //   ""PhoneNumber"": ""8050733916"",
-    //   ""CountryCode"": ""+91"",
-    //   ""Password"":""manja1214"",
-    //   ""RoleId"": 2
-    // }"
+    // let LoginData = {
+    //   "PhoneNumber": "8050733916",
+    //   "CountryCode": "+91",
+    //   "Password":"manja1214",
+    // }
 
     console.log(LoginData);
 
@@ -68,20 +66,25 @@ export class LoginComponent implements OnInit {
       this.submitted = false;
       console.log(LoginData);
       let api = 'WebAdminPanel/Login';
-      this.TokenService.postdata(this.TokenService.EncryptedData(LoginData), api).then(async res => {
+      this.TokenService.postdata(this.TokenService.EncryptedData(LoginData),api).then(async res => {
         let deceryptedData = await this.TokenService.DecryptedData(res['response']);
         console.log(deceryptedData);
         console.log(deceryptedData.responseValue);
-        console.log(deceryptedData.responseValue.UserProfileId);
-        this.prefillService.setUserId(deceryptedData.responseValue.UserProfileId);
-        this.prefillService.setRoleId(deceryptedData.responseValue.RoleId);
-        this.prefillService.setUserCardId(deceryptedData.responseValue.UserCardId);
-
-        this.router.navigate(['../dashboard']);
+        if (deceryptedData.responseValue == null) {
+            this.toast.error(deceryptedData.message, 'Success !', {
+            timeOut: 3000,
+        });
+        }
+        else {
+          console.log(deceryptedData.responseValue.UserProfileId);
+          this.prefillService.setUserId(deceryptedData.responseValue.UserProfileId);
+          this.prefillService.setRoleId(deceryptedData.responseValue.RoleId);
+          this.prefillService.setUserCardId(deceryptedData.responseValue.UserCardId);  
+          this.router.navigate(['../dashboard']);
+        }
+        
         // console.log(deceryptedData.message);
-        // this.toast.success('Successfully Login', 'Success !', {
-        //     timeOut: 3000,
-        // });
+        
 
       }).catch(err => {
         JSON.parse(JSON.stringify(err))

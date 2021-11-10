@@ -29,6 +29,10 @@ import { LoginComponent } from './login/login.component';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { RouterModule } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
+import { PopupComponent } from './popup/popup.component';
+import {MatIconModule} from '@angular/material/icon';
+import { ModalPopupComponent } from './shared/modal-popup/modal-popup.component';
+
 
 @NgModule({
   declarations: [
@@ -43,6 +47,8 @@ import { ToastrModule } from 'ngx-toastr';
     ContentAnimateDirective,
     DevicSpecsReportComponent,
     LoginComponent,
+    PopupComponent,
+    ModalPopupComponent,
     // EventwisereportComponent,
     // UserwisereportComponent
   ],
@@ -63,6 +69,8 @@ import { ToastrModule } from 'ngx-toastr';
     MatSortModule,
     MatSelectModule,
     NgxIntlTelInputModule,
+    MatTableModule ,
+    MatIconModule,
     ToastrModule.forRoot(),
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')

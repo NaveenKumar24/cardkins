@@ -37,6 +37,7 @@ export class CountOfExchangedCardsComponent implements  OnInit{
     else if (this.userProfileId == undefined && this.roleId == undefined) {
       this.router.navigate(['login']);
     }
+    // this.getCountExchangedCards();
      
    }
 
@@ -46,6 +47,11 @@ export class CountOfExchangedCardsComponent implements  OnInit{
           "RoleId": this.roleId,
           "Flag":"E"
         };
+        // let CountofExchangedCards = {
+        //   "LoginUserProfileId": 114,
+        //   "RoleId":2,
+        //   "Flag":"E"
+        // };
         let api = 'WebAdminPanel/ExchangedAndScannedCardReport';
         this.TokenService.postdata(this.TokenService.EncryptedData(CountofExchangedCards),api).then(async res => {
           let deceryptedData = await this.TokenService.DecryptedData(res['response']);
