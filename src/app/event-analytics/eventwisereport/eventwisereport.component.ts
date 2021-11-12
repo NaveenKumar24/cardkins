@@ -25,7 +25,7 @@ export class EventwisereportComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    debugger;
+    // debugger;
     // this.getEventWiseReport();
     if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
       console.log("User Profile Id is" + " " + this.prefillService.getUserId());

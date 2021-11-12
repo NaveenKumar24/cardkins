@@ -26,7 +26,7 @@ export class UserStatusComponent implements OnInit {
   dataSource: any;
   userProfileId: any; roleId: any;
   matDialogRef: MatDialogRef<ModalPopupComponent>;
-  displayedColumns: string[] = ['username','MobileNumber', 'Email', 'NoOfArchivedCards','NoOfProfileCards', 'Status'];
+  displayedColumns: string[] = ['username','MobileNumber', 'Email','NoOfProfileCards', 'Status'];
 
   status: StausType[] = [
     { Status: true, Label: 'Active' },
@@ -108,9 +108,7 @@ export class UserStatusComponent implements OnInit {
       console.log(err.message);
     })
   }
-
-
-  noOfArchivedCards(element) {
+    noOfArchivedCards(element) {
     console.log(element);
     let UserId = element.UserProfileId;
 
@@ -142,6 +140,7 @@ export class UserStatusComponent implements OnInit {
         }
         else {
           this.prefillService.setUserWiseData(deceryptedData.responseValue);
+          this.noOfDefaultCards(element);
           this.showPopup();
         }
         
@@ -149,6 +148,36 @@ export class UserStatusComponent implements OnInit {
   }
 
   noOfProfileCards(element) {
+    // debugger;
+    console.log(element);
+    let UserId = element.UserProfileId;
+    this.prefillService.setNoOProfileCards(UserId);
+
+    let noOfProfileCardsResponse = {
+      "UserProfileId":UserId,
+    }
+
+      let api = '/Card/get';
+      this.TokenService.postdata(this.TokenService.EncryptedData(noOfProfileCardsResponse),api).then(async res => {
+        let deceryptedData = await this.TokenService.DecryptedData(res['response']);
+        console.log(deceryptedData);
+        console.log(deceryptedData.responseValue);
+        let response = deceryptedData.responseValue;       
+        if (response == null) {
+          let ErrorMeaage = deceryptedData.message;
+          this.toast.error(ErrorMeaage, 'Error !', {
+                  timeOut: 3000,
+            });
+        }
+        else {
+          this.prefillService.setUserWiseData(deceryptedData.responseValue);
+          this.router.navigate(['../cards']);
+        }
+    });
+  }
+
+  noOfDefaultCards(element) {
+    // debugger;
     console.log(element);
     let UserId = element.UserProfileId;
 
@@ -156,7 +185,7 @@ export class UserStatusComponent implements OnInit {
       "LoginUserProfileId": this.userProfileId,
        "RoleId": this.roleId,
        "UserProfileId":UserId,
-       "Flag":"N"
+       "Flag":"D"
      }
 
     //  let noOfProfileCardsResponse = {
@@ -180,7 +209,7 @@ export class UserStatusComponent implements OnInit {
         }
         else {
           this.prefillService.setUserWiseData(deceryptedData.responseValue);
-          this.showPopup();
+          // this.showPopup();
         }
     });
   }

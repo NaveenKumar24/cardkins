@@ -129,10 +129,10 @@ export class TokenService {
 
   DecryptedData(response) {
     // debugger;
-    console.log(this.baseURL);
+    // console.log(this.baseURL);
     // let test = 'DGNv0E7HTYh6S1lqeSWkNgC0US24bozOXiRyiwR7cN5gfUXaxMPbhsgY69NKkBV5qybfuK8KiqThvztiHr5cXSfGT7pT5WufHHmpjwfOfPw4PjsmvUKMtMIjaOjxuiscTk7EXxd+AZ7Htqz8VyKHpUYuuM39kXrU49P/woyjGTud2hf7h0oQ56LCJA0x1sMM3gCk7cOuUgz7423YVbjR9d5ENu4Id+COksUDpevBMkWFxSmPN6H1Xm1x4u/3lxIy7Ll/TvH9ekSlzxg8KJ4m/BZacsnjghNxwGLtVSEDe5HGTz8e95NvS4hhy3e4ObURwyhPHZ1y5wbGCakxaotabDz7xcliXYk9hfUQm6I3zMhlJvsdSDhzi5PSLLNo0zU95kErROU/FIPakD77LJfVsyKwVDLZab4wKXX/qnzlu8xiFp4TdJ05+cg7QSieuJaYEc/9GF82mAEFhhRwmbeCNyDt/nq8zUjrKrKH5nSwXhEh3+znM4PK0vyVmA4hzBR5VuyEofsT2BSm25E96u5UTdTwQ3hdqv3bS5F2THQyzVWhUekOhVEaf6wgwaoQuY8hwZe/YuRWWgOKgKptqEuZ6MrBovbc+rgcJfSthj913TuzmLV4Tjy2u/e3/0D737gJaFGsrVLNLQ29C8Tgrg8hdrdTkSPkVhicd4CTDs1QbCxrMLEJ7Wubml1lSHG4PvUCCJmm4ifm5wNO41HJltTo+hndQ0pw2PtViYEIaPe5SnmWSPFmzBqNc7ZZp3L65e/0/zlk5XDMa1KFXxHpmQ3hCZUfQ5fsM0TnDg18A+kWQYIVfjZmRpeUdNPE4K3Xa1DAfHhA2J6z8hOT1GUsV8/UI3vuyp8Tus4/sXLgNuR1hWUmjvW14F9GQsRikFYDoQl58enRWxQEi8+P7+dRobkHl1XIjtaxikjDMl3eo+7o1X6LDz6T2H/kW2KmdYhGVpIehC0pksUwf1zNIhocll+zRJVoMT6O80SLTIBFSt+/6yPxsUvq8EeDYwxn8uF2l1wW2JNxVJEG5G0aZEn/HzoZ6bBsNZsvJ4pchaPBlOFAh1BhW9S1Nd8Cp49MgE03BXGZY3DmTay1WWE5uJsgLR1USVb1cDZRVRUIWk1qewuo3+ijN3V6dGgKi02l4zVYZ+8ZtWaTZtXtqxYF2UkxwoE9TjW1MK87X1fkV37Xb0v3KY4BDvXNrwM+goUZkGkAEbHkcAROs9hJTPf9YA7zDqBvuazMnd2YYw9RSX1WrgNeip0Dr1t5GAKggdz5AE/aXWCOQJ8mzPAnm1M8Hp2xVbyot5ADQrBGmyAXzuDlTlmHf38P3lGdVxllWegAlrKGZUA1xZoHSjh86B/F+YtnH9T9EIwlET+tgvr1k9jjc5CtZUMRCSQwXf7/FPOIAWdOFePyAFwD7wxkzEjIR3uBreYyOZPZhXbQSH78FQJdo7I0x7Pnn/BdIj1wfUmLfR1yJZcm/9edYTBWkqwMPsFuX50xzSrtJknvY9NWFK/dPa7+va5w/pFWzD+NrlcdJk9xrmN7';
     // console.log("Decrypted Request is" + " "+ test); 
-    console.log(response);
+    // console.log(response);
     var Sample = 'DGNv0E7HTYh6S1lqeSWkNrDdhS0bMh0zHfFX/av3BNP5v0XOkyJdGOMLCAU5CVbKp+W1C4qyTmPjzpBBMrGZVXNsUtv3LMaasxJUQPGqXas=';
     var iv = CryptoJS.enc.Hex.parse('e84ad660c4721ae0e84ad660c4721ae0');
      //Encoding the Password in from UTF8 to byte array

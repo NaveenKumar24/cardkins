@@ -3,6 +3,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { PreFillService } from '../../pre-fill.service';
+import { MatIconModule } from '@angular/material/icon';
+
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
@@ -26,6 +28,8 @@ export class ModalPopupComponent implements OnInit {
 
   
   data:any;
+  isActive = false;
+  isInactive = false;
   dataSource = new MatTableDataSource<any>();
   constructor(private prefillService: PreFillService,public dialogRef: MatDialogRef<ModalPopupComponent>) { }
 
@@ -86,195 +90,6 @@ export class ModalPopupComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  }
- 
-
-  // private getStudents() {
-  //   return JSON.parse(`
-  //   [
-  //     {
-  //         "StudentId": 1,
-  //         "StudentName": "Student1",
-  //         "Sex":"M",
-  //         "Programs": [
-  //             {
-  //                 "StudentId": 1,
-  //                 "ProgramName": "Java",
-  //                 "ProgramCategory": "Engineering",
-  //                 "ProgramStatus": "Full Time"
-  //             },
-  //             {
-  //                 "StudentId": 1,
-  //                 "ProgramName": "HR Management 2",
-  //                 "ProgramCategory": "HR",
-  //                 "ProgramStatus": "Part Time"
-  //             },
-  //             {
-  //                 "StudentId": 1,
-  //                 "ProgramName": "Accounting 1",
-  //                 "ProgramCategory": "Finance",
-  //                 "ProgramStatus": "Full Time"
-  //             }
-  //         ]
-  //      },
-  //     {
-  //         "StudentId": 2,
-  //         "StudentName": "Student2",
-  //         "Sex":"F",
-  //         "Programs": [
-  //             {
-  //                 "StudentId": 2,
-  //                 "ProgramName": "HR Management 1",
-  //                 "ProgramCategory": "HR",
-  //                 "ProgramStatus": "Part Time"
-  //             },
-  //             {
-  //                 "StudentId": 2,
-  //                 "ProgramName": "Accounting 3",
-  //                 "ProgramCategory": "Finance",
-  //                 "ProgramStatus": "Full Time"
-  //             }
-  //         ]
-  //      },
-  //     {
-  //         "StudentId": 3,
-  //         "StudentName": "Student3",
-  //         "Sex":"F",
-  //         "Programs": [
-  //             {
-  //                 "StudentId": 3,
-  //                 "ProgramName": "Java 3",
-  //                 "ProgramCategory": "Engineering",
-  //                 "ProgramStatus": "Full Time"
-  //             }
-  //         ]
-  //      },
-  //     {
-  //         "StudentId": 4,
-  //         "StudentName": "Student4",
-  //         "Sex":"M",
-  //         "Programs": [
-  //             {
-  //                 "StudentId": 4,
-  //                 "ProgramName": "Java 2",
-  //                 "ProgramCategory": "Engineering",
-  //                 "ProgramStatus": "Full Time"
-  //             },
-  //             {
-  //                 "StudentId": 4,
-  //                 "ProgramName": "Accounting 2",
-  //                 "ProgramCategory": "Finance",
-  //                 "ProgramStatus": "Part Time"
-  //             }
-  //         ]
-  //      },
-  //      {
-  //         "StudentId": 5,
-  //         "StudentName": "Student5",
-  //         "Sex":"M",
-  //         "Programs": [
-  //             {
-  //                 "StudentId": 5,
-  //                 "ProgramName": "JavaScript",
-  //                 "ProgramCategory": "Engineering",
-  //                 "ProgramStatus": "Part Time"
-  //             },
-  //             {
-  //                 "StudentId": 5,
-  //                 "ProgramName": "HR Management 5",
-  //                 "ProgramCategory": "HR",
-  //                 "ProgramStatus": "Full Time"
-  //             }
-  //         ]
-  //      }
-  // ]
-  //   `);
-  // }
-
-  private getNoOfArchivedCards() {
-    return JSON.parse(`
-    [
-      {
-                "Active": true,
-                "CardFirstName": "Hshs",
-                "CardLastName": "",
-                "CardMiddleName": "Zhhs",
-                "CardName": null,
-                "CompanyAddress": "Ahahh",
-                "CompanyAreaCode": null,
-                "CompanyCity": null,
-                "CompanyCountry": null,
-                "CompanyName": "Card2",
-                "CompanyState": null,
-                "CreatedBy": "Manjunatha",
-                "CreatedDatetime": "2021-05-31T11:41:25.597",
-                "EndMonth": 6,
-                "EndYear": 2016,
-                "Fax": null,
-                "Idv": 52,
-                "Industry": "Community Services & Development",
-                "IsArchived": true,
-                "IsDefault": false,
-                "IsVerified": false,
-                "ModifiedBy": "Manjunatha",
-                "ModifiedDatetime": "2021-05-31T12:27:59.097",
-                "OfficeCountryCode": null,
-                "OfficeMobileNo": "4664646464",
-                "OfficePhoneNumber": null,
-                "PrimaryEmail": "vVGH",
-                "Salutation": null,
-                "SecondaryEmail": "bBH",
-                "Service": "Information Technology",
-                "StartMonth": 5,
-                "StartYear": 2018,
-                "Title": "Hshsh",
-                "UserProfileId": 100,
-                "Website": "Hhaahh"
-        }
-      ]
-    `);
-  }
-  // private getNoOfArchivedCards() {
-  //   return JSON.parse(`
-  //     [
-  //       {
-  //         Active: true,
-  //         CardFirstName: "Hshs",
-  //         CardLastName: "",
-  //         CardMiddleName: "Zhhs",
-  //         CardName: null,
-  //         CompanyAddress: "Ahahh",
-  //         CompanyAreaCode: null,
-  //         CompanyCity: null,
-  //         CompanyCountry: null,
-  //         CompanyName: "Card2",
-  //         CompanyState: null,
-  //         CreatedBy: "Manjunatha",
-  //         CreatedDatetime: "2021-05-31T11:41:25.597",
-  //         EndMonth: 6,
-  //         EndYear: 2016,
-  //         Fax: null,
-  //         Id: 52,
-  //         Industry: "Community Services & Development",
-  //         IsArchived: true,
-  //         IsDefault: false,
-  //         IsVerified: false,
-  //         ModifiedBy: "Manjunatha",
-  //         ModifiedDatetime: "2021-05-31T12:27:59.097",
-  //         OfficeCountryCode: null,
-  //         OfficeMobileNo: "4664646464",
-  //         OfficePhoneNumber: null,
-  //         PrimaryEmail: "vVGH",
-  //         Salutation: null,
-  //         SecondaryEmail: "bBH",
-  //         Service: "Information Technology",
-  //         StartMonth: 5,
-  //         StartYear: 2018,
-  //         Title: "Hshsh",
-  //         UserProfileId: 100,
-  //         Website: "Hhaahh",
-  //       }
-  //     ]
-  //   `)
-  // }
+  }  
 }
+

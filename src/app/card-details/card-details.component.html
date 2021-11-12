@@ -1,0 +1,24 @@
+<div>
+    <div class="card popup">
+        <div class="card-body">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" class="icon-style" (click)="closeDialogue()">close</mat-icon>
+            <div class="row"  *ngFor="let item of dataList; let i = index">
+                <!-- <div class=""> Image Part</div> -->
+                <div class="col-4 mb-3">
+                    <div class="card-image">
+                        <img [src]="imageShow(i)">
+                      </div>
+                </div>
+                <div class="col-12">
+                    <p>{{item.Salutation}} {{item.CardFirstName}} {{item.CardMiddleName}} {{item.CardLastName}}</p>
+                </div>
+                <div class="col-12"><p>{{item.Title}}</p></div>
+                <div class="col-12"><p>{{item.CompanyName}}</p></div>
+                <div class="col-12"><p>{{item.OfficeMobileNo}}</p></div>
+                <div class="col-12"><p>{{item.PrimaryEmail}}</p></div>
+                <div class="col-12"><p>{{item.Industry}}</p></div>
+                <div class="col-12"><p>{{item.Service}}</p></div>
+            </div>
+        </div>
+    </div>
+</div>

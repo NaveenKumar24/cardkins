@@ -23,6 +23,7 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
+                                            <th>No Of Default Card</th>
                                             <th>Active</th>
                                             <th>Card FirstName</th>
                                             <th>Card LastName</th>
@@ -62,6 +63,18 @@
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let item of filteredStudents$.value ">
+                                            <td>
+                                                <ng-container>
+                                                    <div>
+                                                        <img src="../../../assets/images/active.png" >
+                                                    </div>
+                                                </ng-container>
+                                                <!-- <ng-template #successError>
+                                                    <div *ngIf="isInactive">
+                                                        <img src="../../../assets/images/in-active.png" >
+                                                    </div> 
+                                                </ng-template> -->
+                                            </td>
                                             <td>{{item.Active}}</td>
                                             <td>{{item.CardFirstName}}</td>
                                             <td>{{item.CardLastName}}</td>
@@ -97,6 +110,7 @@
                                             <td>{{item.Title}}</td>
                                             <td>{{item.UserProfileId}}</td>
                                             <td>{{item.Website}}</td>
+                                            
                                         </tr>
                                     </tbody>
                                 </table>

@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
 
 
   LogIn() {
-    debugger;
+    // debugger;
     this.submitted = true;
     console.log(this.LoginForm.value);
     console.log("Country Code is " + " " + this.LoginForm.value.phone.dialCode);
@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
         console.log(deceryptedData);
         console.log(deceryptedData.responseValue);
         if (deceryptedData.responseValue == null) {
-            this.toast.error(deceryptedData.message, 'Success !', {
+            this.toast.error(deceryptedData.message, 'Error !', {
             timeOut: 3000,
         });
         }

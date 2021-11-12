@@ -61,7 +61,7 @@ export class PopupComponent implements OnInit {
     this.data = this.prefillService.getUserWiseData();
     console.log(this.data);
     if(this.data == null) {
-      debugger;
+      // debugger;
       console.log("Null Function Called");
       this.dialogRef.close();
 

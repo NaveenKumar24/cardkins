@@ -72,13 +72,13 @@ export class UsersWiseMetaTagsReportComponent implements OnInit {
 
 
   noOfScannedMetaTags(element) {
-    debugger;
+    // debugger;
     console.log(element);
     let UserId = element.UserProfileId;
 
     let noOfScannedMetaTagsResponse = {
       "LoginUserProfileId": this.userProfileId,
-       "RoleId": 2,
+       "RoleId": this.roleId,
        "UserProfileId":UserId,
        "Flag":"S"
      }

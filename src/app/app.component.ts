@@ -17,7 +17,6 @@ export class AppComponent implements OnInit{
 
   constructor(private router: Router) {
     // debugger;
-    // Removing Sidebar, Navbar, Footer for Documentation, Error and Auth pages
     router.events.forEach((event) => { 
       // console.log("Event is " + " " + event);
       if(event instanceof NavigationStart) {
