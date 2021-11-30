@@ -43,7 +43,7 @@
                 <td mat-cell *matCellDef="let element" class="center"> 
                   <div class="display-flex">
                     <p>{{element.NoOfProfileCards}} </p>
-                    <p>
+                    <p *ngIf="element.NoOfProfileCards != 0">
                     <mat-icon aria-hidden="false" aria-label="Example icon" class="icon-style" (click)="noOfProfileCards(element)">remove_red_eye</mat-icon>
                     </p>
                   </div>                   

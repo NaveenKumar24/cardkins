@@ -6,13 +6,17 @@ import { DevicSpecsReportComponent} from './devic-specs-report/devic-specs-repor
 // import { PopupComponent} from './popup1/popup1.component';
 import { ModalPopupComponent} from '../app/shared/modal-popup/modal-popup.component';
 import { CardsComponent } from './cards/cards.component';
+import { NoOfCardsExchangedandScannedComponent} from './no-of-cards-exchangedand-scanned/no-of-cards-exchangedand-scanned.component'
 import { CardDetailsComponent } from './card-details/card-details.component';
+import { NoOfExchangeCardsComponent} from './no-of-exchange-cards/no-of-exchange-cards.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'user-pages', component: LoginComponent},
   { path: 'login', component: LoginComponent},
   { path: 'cards', component: CardsComponent},
+  { path: 'noOfCards', component: NoOfCardsExchangedandScannedComponent},
+  { path: 'noOfCardsExchanged', component: NoOfExchangeCardsComponent},
   // { path: 'cardsDetails', component: CardDetailsComponent},
   // { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },

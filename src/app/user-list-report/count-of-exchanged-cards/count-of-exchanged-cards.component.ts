@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { TokenService } from '../../token.service';
 import { PreFillService } from '../../pre-fill.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-count-of-exchanged-cards',
@@ -17,13 +19,14 @@ export class CountOfExchangedCardsComponent implements  OnInit{
 
   dataSource:any;
   userProfileId:any;roleId:any;
-  displayedColumns: string[] = ['username', 'NoOfCardExchanged'];
+  displayedColumns: string[] = ['username', 'MobileNumber', 'Email','NoOfCardExchanged'];
+
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   constructor(private http: HttpClient,private TokenService: TokenService, private prefillService : PreFillService,
-    private router: Router) {}
+    private router: Router,private toast: ToastrService) {}
 
 
    ngOnInit() {
@@ -65,6 +68,49 @@ export class CountOfExchangedCardsComponent implements  OnInit{
                   JSON.parse(JSON.stringify(err))
                   console.log(err.message);
           })
+   }
+
+   noOfExchangeCards(element) {
+     // debugger;
+    console.log(element);
+    let LoginProfileId = this.prefillService.getUserId();
+    let UserId = element.UserProfileId;
+    let roleId = this.prefillService.getRoleId();
+    let Url = location.href;
+    this.prefillService.setNoOProfileCards(UserId);
+    this.prefillService.setHref(Url);
+
+    let noOfScannedCardsResponse = {
+    "LoginUserProfileId": LoginProfileId,
+    "RoleId": roleId,
+    "UserProfileId":UserId,
+    "Flag":"E"
+    }
+
+    // let noOfScannedCardsResponse ={
+    //   "LoginUserProfileId": 114,
+    //    "RoleId": 2,
+    //    "UserProfileId":100,
+    //    "Flag":"E"
+    //  }
+
+      let api = 'WebAdminPanel/getExchangedAndScannedCardReport';
+      this.TokenService.postdata(this.TokenService.EncryptedData(noOfScannedCardsResponse),api).then(async res => {
+        let deceryptedData = await this.TokenService.DecryptedData(res['response']);
+        console.log(deceryptedData);
+        console.log(deceryptedData.responseValue);
+        let response = deceryptedData.responseValue;       
+        if (response == null) {
+          let ErrorMeaage = deceryptedData.message;
+          this.toast.error(ErrorMeaage, 'Error !', {
+                  timeOut: 3000,
+            });
+        }
+        else {
+          this.prefillService.setUserWiseData(deceryptedData.responseValue);
+          this.router.navigate(['../noOfCardsExchanged']);
+        }
+    });
    }
 
   applyFilter(event: Event) {

@@ -29,18 +29,18 @@ export class UsersWiseMetaTagsReportComponent implements OnInit {
     private router: Router, private matDialog: MatDialog) { }
 
   ngOnInit() {
-      // this.getUserWiseMetaTagsReports();
-
-    if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
-      console.log("User Profile Id is" + " " + this.prefillService.getUserId());
-      console.log("Role Id is " + " " + this.prefillService.getRoleId());
-      this.userProfileId = this.prefillService.getUserId();
-      this.roleId = this.prefillService.getRoleId();
       this.getUserWiseMetaTagsReports();
-    }
-    else if (this.userProfileId == undefined && this.roleId == undefined) {
-      this.router.navigate(['login']);
-    }
+
+    // if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
+    //   console.log("User Profile Id is" + " " + this.prefillService.getUserId());
+    //   console.log("Role Id is " + " " + this.prefillService.getRoleId());
+    //   this.userProfileId = this.prefillService.getUserId();
+    //   this.roleId = this.prefillService.getRoleId();
+    //   this.getUserWiseMetaTagsReports();
+    // }
+    // else if (this.userProfileId == undefined && this.roleId == undefined) {
+    //   this.router.navigate(['login']);
+    // }
 
   }
 
@@ -51,8 +51,8 @@ export class UsersWiseMetaTagsReportComponent implements OnInit {
       "RoleId": this.roleId
     };
     // let UserWiseMetaTagsReport = {
-    //   "LoginUserProfileId": this.userProfileId,
-    //   "RoleId": this.roleId
+    //   "LoginUserProfileId": 114,
+    //   "RoleId": 2
     // };
     let api = 'WebAdminPanel/UserWiseMetaTagsReport';
     this.TokenService.postdata(this.TokenService.EncryptedData(UserWiseMetaTagsReport), api).then(async res => {

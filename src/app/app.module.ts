@@ -35,6 +35,8 @@ import {MatIconModule} from '@angular/material/icon';
 import { ModalPopupComponent } from './shared/modal-popup/modal-popup.component';
 import { CardsComponent } from './cards/cards.component';
 import { CardDetailsComponent } from './card-details/card-details.component';
+import { NoOfCardsExchangedandScannedComponent } from './no-of-cards-exchangedand-scanned/no-of-cards-exchangedand-scanned.component';
+import { NoOfExchangeCardsComponent } from './no-of-exchange-cards/no-of-exchange-cards.component';
 
 
 @NgModule({
@@ -54,6 +56,8 @@ import { CardDetailsComponent } from './card-details/card-details.component';
     ModalPopupComponent,
     CardsComponent,
     CardDetailsComponent,
+    NoOfCardsExchangedandScannedComponent,
+    NoOfExchangeCardsComponent,
     // EventwisereportComponent,
     // UserwisereportComponent
   ],

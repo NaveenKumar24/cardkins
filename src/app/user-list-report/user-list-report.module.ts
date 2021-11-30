@@ -19,8 +19,8 @@ import { UserseVisitingCardsMetaComponent } from './userse-visiting-cards-meta/u
 
 const routes: Routes = [
   { path: 'userStatus', component: UserStatusComponent },
-  { path: 'countOfCards', component: CountOfExchangedCardsComponent},
-  // { path: 'countOfScannedContacts', component: CountOfScannedContactsComponent},
+  { path: 'countOfExchangeCards', component: CountOfExchangedCardsComponent},
+  { path: 'countOfScannedCards', component: CountOfScannedContactsComponent},
   { path: 'usersEVisitingCards', component: UserseVisitingCardsComponent},
   { path: 'usersEVisitingCardsMeta', component: UserseVisitingCardsMetaComponent},
 ];

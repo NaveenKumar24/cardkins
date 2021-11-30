@@ -37,7 +37,9 @@
                   <td mat-cell *matCellDef="let element" class="center"> 
                       <div class="display-flex"> 
                         <p>{{element.NoOfScannedMetaTags}} </p>
+                        <p *ngIf="element.NoOfScannedMetaTags != 0">
                         <mat-icon aria-hidden="false" aria-label="Example home icon" class="icon-style"  (click)="noOfScannedMetaTags(element)">remove_red_eye</mat-icon>
+                        </p>
                       </div>
                   </td>
                 </ng-container>
@@ -46,7 +48,7 @@
                   <td mat-cell *matCellDef="let element" class="center"> 
                     <div class="display-flex">
                       <p>{{element.NoOfExchangedMetaTags}} </p>
-                      <p (click)="NoOfExchangedMetaTags($event)">
+                      <p *ngIf="element.NoOfExchangedMetaTags != 0">
                       <mat-icon aria-hidden="false" aria-label="Example home icon" class="icon-style" (click)="NoOfExchangedMetaTags(element)">remove_red_eye</mat-icon>
                       </p>
                     </div>                   

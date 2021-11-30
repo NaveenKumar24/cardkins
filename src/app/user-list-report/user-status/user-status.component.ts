@@ -108,6 +108,8 @@ export class UserStatusComponent implements OnInit {
       console.log(err.message);
     })
   }
+
+  
     noOfArchivedCards(element) {
     console.log(element);
     let UserId = element.UserProfileId;

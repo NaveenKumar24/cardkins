@@ -11,6 +11,8 @@ export class PreFillService {
   userWiseMetaTags: any;
   userWiseMetaTagsReport: any;
   NoOProfileCardUserId: any;
+  Href:any;
+  noOfScannedCards:any;
 
   constructor() { }
 
@@ -53,6 +55,20 @@ export class PreFillService {
   getNoOProfileCards(): number {
     return this.NoOProfileCardUserId;
   }
+
+  setHref(href: any) {
+    this.Href = href;
+  }
+
+  getHref(): any {
+    return this.Href;
+  }
+
+  // setScannedData(noOfScannedCards: any) {
+  //     this.noOfScannedCards = noOfScannedCards;
+  // }
+
+  // getScanne
   // setUserWiseMetaTagsData(userWiseMetaTagsReport: any) {
   //     this.userWiseMetaTagsReport = userWiseMetaTagsReport
   // }

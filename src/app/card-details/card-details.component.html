@@ -2,22 +2,90 @@
     <div class="card popup">
         <div class="card-body">
             <mat-icon aria-hidden="false" aria-label="Example home icon" class="icon-style" (click)="closeDialogue()">close</mat-icon>
-            <div class="row"  *ngFor="let item of dataList; let i = index">
+            <div class="row">
                 <!-- <div class=""> Image Part</div> -->
-                <div class="col-4 mb-3">
+                <div class="col-5 mb-3">
                     <div class="card-image">
-                        <img [src]="imageShow(i)">
+                        <img [src]="images"> <!-- [src]="imageShow()"-->
                       </div>
                 </div>
                 <div class="col-12">
-                    <p>{{item.Salutation}} {{item.CardFirstName}} {{item.CardMiddleName}} {{item.CardLastName}}</p>
+                   <div class="row">
+                        <div class="col-5">
+                            <label >Name : </label>
+                        </div>
+                        <div class="col-6">
+                            <p>{{name}}</p>
+                            <!-- <p>{{item.Salutation}} {{item.CardFirstName}} {{item.CardMiddleName}} {{item.CardLastName}}</p> -->
+                        </div>
+                   </div>
                 </div>
-                <div class="col-12"><p>{{item.Title}}</p></div>
-                <div class="col-12"><p>{{item.CompanyName}}</p></div>
-                <div class="col-12"><p>{{item.OfficeMobileNo}}</p></div>
-                <div class="col-12"><p>{{item.PrimaryEmail}}</p></div>
-                <div class="col-12"><p>{{item.Industry}}</p></div>
-                <div class="col-12"><p>{{item.Service}}</p></div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-5">
+                            <label >Title : </label>
+                        </div>
+                        <div class="col-6">
+                            {{title}}
+                            <!-- <p>{{item.Title}}</p> -->
+                        </div>
+                   </div>
+                </div>
+               <div class="col-12">
+                    <div class="row">
+                        <div class="col-5">
+                            <label >Company Name : </label>
+                        </div>
+                        <div class="col-6">
+                            {{companyName}}
+                            <!-- <p>{{item.CompanyName}}</p> -->
+                        </div>
+                   </div>                    
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-5">
+                            <label >Office Mobile No : </label>
+                        </div>
+                        <div class="col-6">
+                            {{officeMobileNo}}
+                            <!-- <p>{{item.OfficeMobileNo}}</p> -->
+                        </div>
+                   </div>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-5">
+                            <label >Primary Email : </label>
+                        </div>
+                        <div class="col-6">
+                            {{primaryEmail}}
+                            <!-- <p>{{item.PrimaryEmail}}</p> -->
+                        </div>
+                   </div>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-5">
+                            <label >Industry : </label>
+                        </div>
+                        <div class="col-6">
+                            {{industry}}
+                            <!-- <p>{{item.Industry}}</p> -->
+                        </div>
+                   </div>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-5">
+                            <label >Service : </label>
+                        </div>
+                        <div class="col-6">
+                            {{service}}
+                            <!-- <p>{{item.Service}}</p> -->
+                        </div>
+                   </div>
+                </div> 
             </div>
         </div>
     </div>

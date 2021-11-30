@@ -6,6 +6,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PreFillService } from '../../pre-fill.service';
 import { TokenService } from '../../token.service';
 import { Router, RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-count-of-scanned-contacts',
@@ -17,15 +19,19 @@ export class CountOfScannedContactsComponent implements OnInit {
 
   dataSource: any;
   userProfileId: any; roleId: any;
-  displayedColumns: string[] = ['username', 'NoOfCardExchanged'];
+  href:any;
+  displayedColumns: string[] = ['username', 'MobileNumber', 'Email','NoOfCardExchanged'];
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   constructor(private http: HttpClient, private TokenService: TokenService, private prefillService: PreFillService,
-    private router: Router) { }
+    private router: Router,private toast: ToastrService) { }
 
   ngOnInit() {
+    // debugger;
+      // this.getCountOfScannedContacts();
+
     if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
       console.log("User Profile Id is" + " " + this.prefillService.getUserId());
       console.log("Role Id is " + " " + this.prefillService.getRoleId());
@@ -65,6 +71,49 @@ export class CountOfScannedContactsComponent implements OnInit {
     })
   }
 
+
+  noOfScannedCards(element) {
+    // debugger;
+    console.log(element);
+    let LoginProfileId = this.prefillService.getUserId();
+    let UserId = element.UserProfileId;
+    let roleId = this.prefillService.getRoleId();
+    let Url = location.href;
+    this.prefillService.setNoOProfileCards(UserId);
+    this.prefillService.setHref(Url);
+
+    let noOfScannedCardsResponse = {
+    "LoginUserProfileId": LoginProfileId,
+    "RoleId": roleId,
+    "UserProfileId":UserId,
+    "Flag":"S"
+    }
+
+    // let noOfScannedCardsResponse ={
+    //   "LoginUserProfileId": 114,
+    //    "RoleId": 2,
+    //    "UserProfileId":100,
+    //    "Flag":"S"
+    //  }
+
+      let api = 'WebAdminPanel/getExchangedAndScannedCardReport';
+      this.TokenService.postdata(this.TokenService.EncryptedData(noOfScannedCardsResponse),api).then(async res => {
+        let deceryptedData = await this.TokenService.DecryptedData(res['response']);
+        console.log(deceryptedData);
+        console.log(deceryptedData.responseValue);
+        let response = deceryptedData.responseValue;       
+        if (response == null) {
+          let ErrorMeaage = deceryptedData.message;
+          this.toast.error(ErrorMeaage, 'Error !', {
+                  timeOut: 3000,
+            });
+        }
+        else {
+          this.prefillService.setUserWiseData(deceryptedData.responseValue);
+          this.router.navigate(['../noOfCards']);
+        }
+    });
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
