@@ -25,6 +25,8 @@ export class UserStatusComponent implements OnInit {
 
   dataSource: any;
   userProfileId: any; roleId: any;
+  isLoading: boolean;
+  divContent: boolean;
   matDialogRef: MatDialogRef<ModalPopupComponent>;
   displayedColumns: string[] = ['username','MobileNumber', 'Email','NoOfProfileCards', 'Status'];
 
@@ -43,6 +45,8 @@ export class UserStatusComponent implements OnInit {
 
   ngOnInit() {
     // this.getUserStatus();
+    this.isLoading = true;
+    this.divContent = false;
     if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
       console.log("User Profile Id is" + " " + this.prefillService.getUserId());
       console.log("Role Id is " + " " + this.prefillService.getRoleId());
@@ -73,6 +77,8 @@ export class UserStatusComponent implements OnInit {
       console.log(deceryptedData);
       let TableData = deceryptedData.responseValue.UserStatusReportData;
       // console.log(TableData);
+      this.isLoading = false;
+      this.divContent = true;
       this.dataSource = new MatTableDataSource(TableData);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

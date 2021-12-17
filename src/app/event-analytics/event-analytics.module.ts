@@ -11,6 +11,8 @@ import { MatDialogModule } from "@angular/material/dialog";
 // import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EventwisereportComponent } from './eventwisereport/eventwisereport.component';
 import { UserwisereportComponent } from './userwisereport/userwisereport.component';
+// import { SpinnerComponent } from '../shared/spinner/spinner.component';
+
 
 
 const routes: Routes = [
@@ -23,6 +25,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     NgbModule,
+    
     MatTableModule,
     MatInputModule,
     MatPaginatorModule,

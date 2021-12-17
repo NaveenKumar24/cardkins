@@ -1,4 +1,8 @@
-<div class="card">
+<div class="spinner-wrapper" *ngIf="isLoading">
+  <div class="donut"></div>
+</div>
+
+<div class="card" *ngIf="divContent">
     <div class="card-body">
         <h4 class="card-title">Count of Scanned Cards</h4>
         <div class="row">

@@ -20,6 +20,8 @@ export class CountOfScannedContactsComponent implements OnInit {
   dataSource: any;
   userProfileId: any; roleId: any;
   href:any;
+  isLoading: boolean;
+  divContent: boolean;
   displayedColumns: string[] = ['username', 'MobileNumber', 'Email','NoOfCardExchanged'];
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -30,6 +32,8 @@ export class CountOfScannedContactsComponent implements OnInit {
 
   ngOnInit() {
     // debugger;
+    this.isLoading = true;
+    this.divContent = false;    
       // this.getCountOfScannedContacts();
 
     if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
@@ -62,6 +66,8 @@ export class CountOfScannedContactsComponent implements OnInit {
       console.log(deceryptedData);
       let TableData = deceryptedData.responseValue.ExchangeAndScannedCardDataReport;
       // console.log("Table Data Length is" + " " + TableData.length);
+      this.isLoading = false;
+      this.divContent = true;
       this.dataSource = new MatTableDataSource(TableData);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

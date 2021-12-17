@@ -19,6 +19,8 @@ export class CountOfExchangedCardsComponent implements  OnInit{
 
   dataSource:any;
   userProfileId:any;roleId:any;
+  isLoading: boolean;
+  divContent: boolean;
   displayedColumns: string[] = ['username', 'MobileNumber', 'Email','NoOfCardExchanged'];
 
 
@@ -30,6 +32,9 @@ export class CountOfExchangedCardsComponent implements  OnInit{
 
 
    ngOnInit() {
+    this.isLoading = true;
+    this.divContent = false;
+
     if(this.prefillService.getUserId() && this.prefillService.getRoleId()) {
       console.log("User Profile Id is" + " " + this.prefillService.getUserId());
       console.log("Role Id is " + " " + this.prefillService.getRoleId());
@@ -61,6 +66,8 @@ export class CountOfExchangedCardsComponent implements  OnInit{
           console.log(deceryptedData);
           let TableData = deceryptedData.responseValue.ExchangeAndScannedCardDataReport;
           // console.log("Table Data Length is" + " " + TableData.length);
+          this.isLoading = false;
+          this.divContent = true;
           this.dataSource = new MatTableDataSource(TableData);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;

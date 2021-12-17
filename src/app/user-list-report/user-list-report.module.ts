@@ -21,8 +21,8 @@ const routes: Routes = [
   { path: 'userStatus', component: UserStatusComponent },
   { path: 'countOfExchangeCards', component: CountOfExchangedCardsComponent},
   { path: 'countOfScannedCards', component: CountOfScannedContactsComponent},
-  { path: 'usersEVisitingCards', component: UserseVisitingCardsComponent},
-  { path: 'usersEVisitingCardsMeta', component: UserseVisitingCardsMetaComponent},
+  // { path: 'usersEVisitingCards', component: UserseVisitingCardsComponent},
+  // { path: 'usersEVisitingCardsMeta', component: UserseVisitingCardsMetaComponent},
 ];
 
 @NgModule({

@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TokenService } from '../../token.service';
 import { PreFillService } from '../../pre-fill.service';
+import { SpinnerComponent } from '../../shared/spinner/spinner.component';
+
 
 
 @Component({
@@ -15,6 +17,8 @@ import { PreFillService } from '../../pre-fill.service';
 })
 export class EventwisereportComponent implements OnInit {
   dataSource: any;
+  isLoading: boolean;
+  divContent: boolean;
   userProfileId: any; roleId: any;
   displayedColumns: string[] = ['EventName', 'NoOfUsers'];
 
@@ -27,6 +31,9 @@ export class EventwisereportComponent implements OnInit {
   ngOnInit() {
     // debugger;
     // this.getEventWiseReport();
+    this.isLoading = true;
+    this.divContent = false;
+
     if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
       console.log("User Profile Id is" + " " + this.prefillService.getUserId());
       console.log("Role Id is " + " " + this.prefillService.getRoleId());
@@ -49,6 +56,8 @@ export class EventwisereportComponent implements OnInit {
     this.TokenService.postdata(this.TokenService.EncryptedData(EventWiseReport), api).then(async res => {
       let deceryptedData = await this.TokenService.DecryptedData(res['response']);
       console.log(deceryptedData);
+      this.isLoading = false;
+      this.divContent = true;
       let TableData = deceryptedData.responseValue.EventWiseDataReport;
       // console.log("Table Data Length is" + " " + TableData.length);
       this.dataSource = new MatTableDataSource(TableData);

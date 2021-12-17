@@ -19,6 +19,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 export class UsersWiseMetaTagsReportComponent implements OnInit {
   dataSource: any;
   userProfileId: any; roleId: any;
+  isLoading: boolean;
+  divContent: boolean;
   displayedColumns: string[] = ['username','MobileNumber', 'Email', 'NoOfScannedMetaTags','NoOfExchangedMetaTags'];
   matDialogRef: MatDialogRef<PopupComponent>;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -29,18 +31,20 @@ export class UsersWiseMetaTagsReportComponent implements OnInit {
     private router: Router, private matDialog: MatDialog) { }
 
   ngOnInit() {
-      this.getUserWiseMetaTagsReports();
+      // this.getUserWiseMetaTagsReports();
+      this.isLoading = true;
+      this.divContent = false;
 
-    // if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
-    //   console.log("User Profile Id is" + " " + this.prefillService.getUserId());
-    //   console.log("Role Id is " + " " + this.prefillService.getRoleId());
-    //   this.userProfileId = this.prefillService.getUserId();
-    //   this.roleId = this.prefillService.getRoleId();
-    //   this.getUserWiseMetaTagsReports();
-    // }
-    // else if (this.userProfileId == undefined && this.roleId == undefined) {
-    //   this.router.navigate(['login']);
-    // }
+    if (this.prefillService.getUserId() && this.prefillService.getRoleId()) {
+      console.log("User Profile Id is" + " " + this.prefillService.getUserId());
+      console.log("Role Id is " + " " + this.prefillService.getRoleId());
+      this.userProfileId = this.prefillService.getUserId();
+      this.roleId = this.prefillService.getRoleId();
+      this.getUserWiseMetaTagsReports();
+    }
+    else if (this.userProfileId == undefined && this.roleId == undefined) {
+      this.router.navigate(['login']);
+    }
 
   }
 
@@ -60,6 +64,8 @@ export class UsersWiseMetaTagsReportComponent implements OnInit {
       console.log(deceryptedData);
       let TableData = deceryptedData.responseValue.UserWiseMetaTagsDataReport;
       // console.log("Table Data Length is" + " " + TableData.length);
+      this.isLoading = false;
+      this.divContent = true;
       this.dataSource = new MatTableDataSource(TableData);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

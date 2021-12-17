@@ -21,7 +21,6 @@ import { TodoListComponent } from './apps/todo-list/todo-list.component';
 import { DevicSpecsReportComponent } from './devic-specs-report/devic-specs-report.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
-
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule} from '@angular/material/select';
@@ -29,9 +28,12 @@ import { EventAnalyticsModule } from './event-analytics/event-analytics.module';
 import { LoginComponent } from './login/login.component';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { RouterModule } from '@angular/router';
+
+
+
 import { ToastrModule } from 'ngx-toastr';
 import { PopupComponent } from './popup/popup.component';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { ModalPopupComponent } from './shared/modal-popup/modal-popup.component';
 import { CardsComponent } from './cards/cards.component';
 import { CardDetailsComponent } from './card-details/card-details.component';
